@@ -1,0 +1,17 @@
+{
+  "type": "project",
+  "license": "proprietary",
+  "require": {
+    "php": "^7.4"
+  },
+  "config": {
+    "preferred-install": {
+      "*": "dist"
+    },
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+    }
+  }
+}
