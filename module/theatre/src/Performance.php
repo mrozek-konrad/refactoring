@@ -8,10 +8,10 @@ use InvalidArgumentException;
 
 class Performance
 {
-    private const  PLAY_ID_LENGTH_MINIMUM  = 3;
-    private const  PLAY_ID_LENGTH_MAXIMUM  = 15;
-    private const  AUDIENCE_LENGTH_MINIMUM = 0;
-    private const  AUDIENCE_LENGTH_MAXIMUM = 501;
+    public const  PLAY_ID_LENGTH_MINIMUM  = 3;
+    public const  PLAY_ID_LENGTH_MAXIMUM  = 15;
+    public const  AUDIENCE_LENGTH_MINIMUM = 1;
+    public const  AUDIENCE_LENGTH_MAXIMUM = 501;
 
     private string $playId;
     private int    $audience;
@@ -20,15 +20,15 @@ class Performance
     {
         $playIdLength = strlen($playId);
 
-        if ($playIdLength >= self::PLAY_ID_LENGTH_MINIMUM && $playIdLength <= self::PLAY_ID_LENGTH_MAXIMUM) {
+        if ($playIdLength < self::PLAY_ID_LENGTH_MINIMUM || $playIdLength > self::PLAY_ID_LENGTH_MAXIMUM) {
             throw new InvalidArgumentException(
-                printf('Length of playId must be between %d-%d chars.', self::PLAY_ID_LENGTH_MINIMUM, self::PLAY_ID_LENGTH_MAXIMUM)
+                sprintf('Length of playId must be between %d-%d chars.', self::PLAY_ID_LENGTH_MINIMUM, self::PLAY_ID_LENGTH_MAXIMUM)
             );
         }
 
-        if ($audience > self::AUDIENCE_LENGTH_MINIMUM && $audience < self::AUDIENCE_LENGTH_MAXIMUM) {
+        if ($audience < self::AUDIENCE_LENGTH_MINIMUM || $audience > self::AUDIENCE_LENGTH_MAXIMUM) {
             throw new InvalidArgumentException(
-                printf('Audience must be above %d and lower than %d', self::AUDIENCE_LENGTH_MINIMUM, self::AUDIENCE_LENGTH_MAXIMUM)
+                sprintf('Audience must be above %d and lower than %d', self::AUDIENCE_LENGTH_MINIMUM, self::AUDIENCE_LENGTH_MAXIMUM)
             );
         }
 
