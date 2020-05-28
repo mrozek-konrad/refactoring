@@ -39,6 +39,16 @@ trait Fixtures
         return $this->randomString(Customer::NAME_LENGTH_MINIMUM - 1);
     }
 
+    public function invalidPerformanceParams(): array
+    {
+        return [$this->randomInt(PHP_INT_MIN, PHP_INT_MAX), $this->randomInt(PHP_INT_MIN, PHP_INT_MAX)];
+    }
+
+    public function performance(): Performance
+    {
+        return new Performance($this->playId(), $this->audience());
+    }
+
     public function playId(): string
     {
         return $this->randomString($this->randomInt(Performance::PLAY_ID_LENGTH_MINIMUM, Performance::PLAY_ID_LENGTH_MAXIMUM));
@@ -52,6 +62,17 @@ trait Fixtures
     public function playIdTooShort(): string
     {
         return $this->randomString(Performance::PLAY_ID_LENGTH_MINIMUM - 1);
+    }
+
+    public function validPerformanceParams(): array
+    {
+        $params = [];
+
+        for ($i = 0; $i < $this->randomInt(5, 20); $i++) {
+            $params[] = $this->performance();
+        }
+
+        return $params;
     }
 
     private function randomInt(int $min, int $max): int
