@@ -10,7 +10,7 @@ class CustomerTest extends TestCase
 {
     use Fixtures;
 
-    public function testCustomerNameCannotBeTooShort()
+    public function testCustomerNameCannotBeTooShort(): void
     {
         $name = $this->customerNameTooShort();
 
@@ -22,7 +22,7 @@ class CustomerTest extends TestCase
         new Customer($name);
     }
 
-    public function testCustomerNameCannotBeTooLong()
+    public function testCustomerNameCannotBeTooLong(): void
     {
         $name = $this->customerNameTooLong();
 
@@ -34,7 +34,7 @@ class CustomerTest extends TestCase
         new Customer($name);
     }
 
-    public function testCustomerReturnsValidName()
+    public function testCustomerReturnsValidName(): void
     {
         $name = $this->customerName();
 

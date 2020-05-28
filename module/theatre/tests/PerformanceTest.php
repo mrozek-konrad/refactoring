@@ -11,7 +11,7 @@ class PerformanceTest extends TestCase
 {
     use Fixtures;
 
-    public function testPerformancePlayIdCannotBeTooLong()
+    public function testPerformancePlayIdCannotBeTooLong(): void
     {
         $playId   = $this->playIdTooLong();
         $audience = $this->audience();
@@ -24,7 +24,7 @@ class PerformanceTest extends TestCase
         new Performance($playId, $audience);
     }
 
-    public function testPerformancePlayIdCannotBeTooShort()
+    public function testPerformancePlayIdCannotBeTooShort(): void
     {
         $playId   = $this->playIdTooShort();
         $audience = $this->audience();
@@ -37,7 +37,7 @@ class PerformanceTest extends TestCase
         new Performance($playId, $audience);
     }
 
-    public function testPerformanceAudienceCannotBeAboveMaximum()
+    public function testPerformanceAudienceCannotBeAboveMaximum(): void
     {
         $playId   = $this->playId();
         $audience = $this->audienceAboveMaximum();
@@ -50,7 +50,7 @@ class PerformanceTest extends TestCase
         new Performance($playId, $audience);
     }
 
-    public function testPerformanceAudienceCannotBeLowerThanMinimum()
+    public function testPerformanceAudienceCannotBeLowerThanMinimum(): void
     {
         $playId   = $this->playId();
         $audience = $this->audienceLowerThanMinimum();
@@ -63,7 +63,7 @@ class PerformanceTest extends TestCase
         new Performance($playId, $audience);
     }
 
-    public function testCustomerNameCannotBeTooShort()
+    public function testCustomerNameCannotBeTooShort(): void
     {
         $name = $this->customerNameTooShort();
 
@@ -75,7 +75,7 @@ class PerformanceTest extends TestCase
         new Customer($name);
     }
 
-    public function testPerformanceReturnsValidPlayIdAndAudience()
+    public function testPerformanceReturnsValidPlayIdAndAudience(): void
     {
         $playId   = $this->playId();
         $audience = $this->audience();
