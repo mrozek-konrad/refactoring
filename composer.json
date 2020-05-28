@@ -12,6 +12,7 @@
   },
   "autoload": {
     "psr-4": {
+      "Theatre\\": "module/theatre/src"
     }
   }
 }
