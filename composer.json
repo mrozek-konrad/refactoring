@@ -11,6 +11,11 @@
     },
     "sort-packages": true
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Theatre\\Tests\\": "module/theatre/tests"
+    }
+  },
   "autoload": {
     "psr-4": {
       "Theatre\\": "module/theatre/src"
