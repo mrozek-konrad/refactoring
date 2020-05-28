@@ -6,6 +6,7 @@ namespace Theatre\Tests;
 
 use Theatre\Customer;
 use Theatre\Performance;
+use Theatre\Performances;
 
 trait Fixtures
 {
@@ -73,6 +74,16 @@ trait Fixtures
         }
 
         return $params;
+    }
+
+    public function performances(): Performances
+    {
+        return new Performances(...$this->validPerformanceParams());
+    }
+
+    public function customer(): Customer
+    {
+        return new Customer($this->customerName());
     }
 
     private function randomInt(int $min, int $max): int
