@@ -6,8 +6,10 @@ use Theatre\Customer;
 use Theatre\Invoice;
 use Theatre\Performance;
 use Theatre\Performances;
+use Theatre\Play;
+use Theatre\Plays;
 
-function statement(Invoice $invoice, array $plays)
+function statement(Invoice $invoice, Plays $plays)
 {
     $totalAmount   = 0;
     $volumeCredits = 0;
@@ -17,10 +19,10 @@ function statement(Invoice $invoice, array $plays)
     $result = "Rachunek dla $invoiceCustomer" . PHP_EOL;
 
     foreach ($invoice->performances() as $performance) {
-        $play   = $plays[$performance->playId()];
+        $play = $plays->find($performance->playId());
         $amount = 0;
 
-        switch ($play['type']) {
+        switch ($play->type()) {
             case "tragedy":
                 $amount = 40000;
                 if ($performance->audience() > 30) {
@@ -35,16 +37,16 @@ function statement(Invoice $invoice, array $plays)
                 $amount += 300 * $performance->audience();
                 break;
             default:
-                throw new Exception('Unknown audience type ' . $play['type']);
+                throw new Exception('Unknown audience type ' . $play->type());
         }
 
         $volumeCredits += max($performance->audience() - 30, 0);
 
-        if ("comedy" === $play['type']) {
+        if ("comedy" === $play->type()) {
             $volumeCredits += floor($performance->audience() / 5);
         }
 
-        $result      .= ' ' . $play['name'] . ': ' . number_format($amount / 100) . ' (liczba miejsc:' . $performance->audience() . ')' . PHP_EOL;
+        $result      .= ' ' . $play->name() . ': ' . number_format($amount / 100) . ' (liczba miejsc:' . $performance->audience() . ')' . PHP_EOL;
         $totalAmount += $amount;
     }
 
@@ -55,7 +57,13 @@ function statement(Invoice $invoice, array $plays)
 }
 
 $invoices = json_decode(file_get_contents(__DIR__ . '/json/invoices.json'), true);
-$plays    = json_decode(file_get_contents(__DIR__ . '/json/plays.json'), true);
+$rawPlays = json_decode(file_get_contents(__DIR__ . '/json/plays.json'), true);
+
+$plays = [];
+
+foreach ($rawPlays as $id => $rawPlay) {
+    $plays[] = new Play($id, $rawPlay['name'], $rawPlay['type']);
+}
 
 foreach ($invoices as $invoice) {
     $performances = [];
@@ -65,6 +73,7 @@ foreach ($invoices as $invoice) {
     }
 
     $invoice = new Invoice(new Customer($invoice['customer']), new Performances(...$performances));
+    $plays   = new Plays(...$plays);
 
     echo statement($invoice, $plays) . PHP_EOL;
 }
