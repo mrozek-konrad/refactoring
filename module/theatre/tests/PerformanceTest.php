@@ -14,7 +14,7 @@ class PerformanceTest extends TestCase
     public function testPerformancePlayIdCannotBeTooLong(): void
     {
         $playId   = $this->performancePlayIdTooLong();
-        $audience = $this->audience();
+        $audience = $this->performanceAudience();
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
@@ -27,7 +27,7 @@ class PerformanceTest extends TestCase
     public function testPerformancePlayIdCannotBeTooShort(): void
     {
         $playId   = $this->performancePlayIdTooShort();
-        $audience = $this->audience();
+        $audience = $this->performanceAudience();
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
@@ -78,7 +78,7 @@ class PerformanceTest extends TestCase
     public function testPerformanceReturnsValidPlayIdAndAudience(): void
     {
         $playId   = $this->performancePlayId();
-        $audience = $this->audience();
+        $audience = $this->performanceAudience();
 
         $performance = new Performance($playId, $audience);
 

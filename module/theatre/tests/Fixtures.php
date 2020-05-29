@@ -11,11 +11,6 @@ use Theatre\Play;
 
 trait Fixtures
 {
-    public function audience(): int
-    {
-        return $this->randomInt(Performance::AUDIENCE_LENGTH_MINIMUM, Performance::AUDIENCE_LENGTH_MAXIMUM);
-    }
-
     public function audienceAboveMaximum(): int
     {
         return $this->randomInt(Performance::AUDIENCE_LENGTH_MAXIMUM + 1, PHP_INT_MAX);
@@ -24,6 +19,11 @@ trait Fixtures
     public function audienceLowerThanMinimum(): int
     {
         return $this->randomInt(PHP_INT_MIN, Performance::AUDIENCE_LENGTH_MINIMUM - 1);
+    }
+
+    public function customer(): Customer
+    {
+        return new Customer($this->customerName());
     }
 
     public function customerName(): string
@@ -46,59 +46,24 @@ trait Fixtures
         return [$this->randomInt(PHP_INT_MIN, PHP_INT_MAX), $this->randomInt(PHP_INT_MIN, PHP_INT_MAX)];
     }
 
+    public function invalidPlayParams(): array
+    {
+        return [$this->randomInt(PHP_INT_MIN, PHP_INT_MAX), $this->randomInt(PHP_INT_MIN, PHP_INT_MAX)];
+    }
+
     public function performance(): Performance
     {
-        return new Performance($this->performancePlayId(), $this->audience());
+        return new Performance($this->performancePlayId(), $this->performanceAudience());
+    }
+
+    public function performanceAudience(): int
+    {
+        return $this->randomInt(Performance::AUDIENCE_LENGTH_MINIMUM, Performance::AUDIENCE_LENGTH_MAXIMUM);
     }
 
     public function performancePlayId(): string
     {
         return $this->randomString($this->randomInt(Performance::PLAY_ID_LENGTH_MINIMUM, Performance::PLAY_ID_LENGTH_MAXIMUM));
-    }
-
-    public function playId(): string
-    {
-        return $this->randomString($this->randomInt(Play::ID_LENGTH_MINIMUM, Play::ID_LENGTH_MAXIMUM));
-    }
-
-    public function playIdTooShort(): string
-    {
-        return $this->randomStringTooShort(Play::ID_LENGTH_MINIMUM);
-    }
-
-    public function playIdTooLong(): string
-    {
-        return $this->randomStringTooLong(Play::ID_LENGTH_MAXIMUM);
-    }
-
-    public function playName(): string
-    {
-        return $this->randomString($this->randomInt(Play::NAME_LENGTH_MINIMUM, Play::NAME_LENGTH_MAXIMUM));
-    }
-
-    public function playNameTooShort(): string
-    {
-        return $this->randomStringTooShort(Play::NAME_LENGTH_MINIMUM);
-    }
-
-    public function playNameTooLong(): string
-    {
-        return $this->randomStringTooLong(Play::NAME_LENGTH_MAXIMUM);
-    }
-
-    public function playType(): string
-    {
-        return $this->randomString($this->randomInt(Play::TYPE_LENGTH_MINIMUM, Play::TYPE_LENGTH_MAXIMUM));
-    }
-
-    public function playTypeTooShort(): string
-    {
-        return $this->randomStringTooShort(Play::TYPE_LENGTH_MINIMUM);
-    }
-
-    public function playTypeTooLong(): string
-    {
-        return $this->randomStringTooLong(Play::TYPE_LENGTH_MAXIMUM);
     }
 
     public function performancePlayIdTooLong(): string
@@ -109,6 +74,61 @@ trait Fixtures
     public function performancePlayIdTooShort(): string
     {
         return $this->randomStringTooShort(Performance::PLAY_ID_LENGTH_MINIMUM);
+    }
+
+    public function performances(): Performances
+    {
+        return new Performances(...$this->validPerformanceParams());
+    }
+
+    public function play(): Play
+    {
+        return new Play($this->playId(), $this->playName(), $this->playType());
+    }
+
+    public function playId(): string
+    {
+        return $this->randomString($this->randomInt(Play::ID_LENGTH_MINIMUM, Play::ID_LENGTH_MAXIMUM));
+    }
+
+    public function playIdTooLong(): string
+    {
+        return $this->randomStringTooLong(Play::ID_LENGTH_MAXIMUM);
+    }
+
+    public function playIdTooShort(): string
+    {
+        return $this->randomStringTooShort(Play::ID_LENGTH_MINIMUM);
+    }
+
+    public function playName(): string
+    {
+        return $this->randomString($this->randomInt(Play::NAME_LENGTH_MINIMUM, Play::NAME_LENGTH_MAXIMUM));
+    }
+
+    public function playNameTooLong(): string
+    {
+        return $this->randomStringTooLong(Play::NAME_LENGTH_MAXIMUM);
+    }
+
+    public function playNameTooShort(): string
+    {
+        return $this->randomStringTooShort(Play::NAME_LENGTH_MINIMUM);
+    }
+
+    public function playType(): string
+    {
+        return $this->randomString($this->randomInt(Play::TYPE_LENGTH_MINIMUM, Play::TYPE_LENGTH_MAXIMUM));
+    }
+
+    public function playTypeTooLong(): string
+    {
+        return $this->randomStringTooLong(Play::TYPE_LENGTH_MAXIMUM);
+    }
+
+    public function playTypeTooShort(): string
+    {
+        return $this->randomStringTooShort(Play::TYPE_LENGTH_MINIMUM);
     }
 
     public function validPerformanceParams(): array
@@ -122,14 +142,15 @@ trait Fixtures
         return $params;
     }
 
-    public function performances(): Performances
+    public function validPlayParams(): array
     {
-        return new Performances(...$this->validPerformanceParams());
-    }
+        $params = [];
 
-    public function customer(): Customer
-    {
-        return new Customer($this->customerName());
+        for ($i = 0; $i < $this->randomInt(5, 20); $i++) {
+            $params[] = $this->play();
+        }
+
+        return $params;
     }
 
     private function randomInt(int $min, int $max): int
@@ -137,9 +158,9 @@ trait Fixtures
         return mt_rand($min, $max);
     }
 
-    private function randomStringTooShort(int $length): string
+    private function randomString(int $length): string
     {
-        return $this->randomString($length - 1);
+        return substr(md5((string) mt_rand()) . md5((string) mt_rand()) . md5((string) mt_rand()), 0, $length);
     }
 
     private function randomStringTooLong(int $length): string
@@ -147,8 +168,8 @@ trait Fixtures
         return $this->randomString($length + 1);
     }
 
-    private function randomString(int $length): string
+    private function randomStringTooShort(int $length): string
     {
-        return substr(md5((string) mt_rand()) . md5((string) mt_rand()) . md5((string) mt_rand()), 0, $length);
+        return $this->randomString($length - 1);
     }
 }
