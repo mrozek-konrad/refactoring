@@ -2,20 +2,45 @@
 
 namespace Theatre\Tests;
 
+use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Theatre\Play;
 use Theatre\Plays;
-use PHPUnit\Framework\TestCase;
 use TypeError;
 
 class PlaysTest extends TestCase
 {
     use Fixtures;
 
-    public function testPlaysCollectionCannotBeCreatedUsingObjectsOfTypeDifferentThanPlay(): void
+    public function testAllowToFindPlayWithSpecifiedId(): void
     {
-        $invalidParams = $this->invalidPlayParams();
+        $playId = $this->playId();
+        $play   = $this->play($playId);
+        $plays  = $this->playsWithPlay($play);
 
-        $this->expectException(TypeError::class);
+        $foundPlay = $plays->find($playId);
+
+        $this->assertSame($play, $foundPlay);
+    }
+
+    public function testThrowsErrorWhenYouFindingPlayWhichDoesNotExistInPlays(): void
+    {
+        $playId = $this->invalidPlayId();
+        $plays  = $this->plays();
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage(sprintf('Play with id %s not found', $playId));
+
+        $plays->find($playId);
+    }
+
+    public function testCannotAddToCollectionTwoPlaysWithTheSameId(): void
+    {
+        $id            = $this->playId();
+        $invalidParams = $this->invalidPlayParamsWithFewPlaysWithTheSameId($id);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Cannot add second play with id ' . $id);
 
         new Plays(...$invalidParams);
     }
@@ -29,5 +54,14 @@ class PlaysTest extends TestCase
         $this->assertSame($validParams, $plays->getArrayCopy());
         $this->assertSame(reset($validParams), $plays->current());
         $this->assertInstanceOf(Play::class, $plays->current());
+    }
+
+    public function testPlaysCollectionCannotBeCreatedUsingObjectsOfTypeDifferentThanPlay(): void
+    {
+        $invalidParams = $this->invalidPlayParams();
+
+        $this->expectException(TypeError::class);
+
+        new Plays(...$invalidParams);
     }
 }

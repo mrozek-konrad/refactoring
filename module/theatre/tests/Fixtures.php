@@ -8,6 +8,7 @@ use Theatre\Customer;
 use Theatre\Performance;
 use Theatre\Performances;
 use Theatre\Play;
+use Theatre\Plays;
 
 trait Fixtures
 {
@@ -51,6 +52,17 @@ trait Fixtures
         return [$this->randomInt(PHP_INT_MIN, PHP_INT_MAX), $this->randomInt(PHP_INT_MIN, PHP_INT_MAX)];
     }
 
+    public function invalidPlayParamsWithFewPlaysWithTheSameId(string $id): array
+    {
+        $params = [];
+
+        for ($i = 0; $i < $this->randomInt(5, 20); $i++) {
+            $params[] = $this->play($id);
+        }
+
+        return $params;
+    }
+
     public function performance(): Performance
     {
         return new Performance($this->performancePlayId(), $this->performanceAudience());
@@ -81,9 +93,9 @@ trait Fixtures
         return new Performances(...$this->validPerformanceParams());
     }
 
-    public function play(): Play
+    public function play(?string $id = null): Play
     {
-        return new Play($this->playId(), $this->playName(), $this->playType());
+        return new Play($id ?? $this->playId(), $this->playName(), $this->playType());
     }
 
     public function playId(): string
@@ -94,6 +106,11 @@ trait Fixtures
     public function playIdTooLong(): string
     {
         return $this->randomStringTooLong(Play::ID_LENGTH_MAXIMUM);
+    }
+
+    public function invalidPlayId(): string
+    {
+        return $this->playIdTooLong();
     }
 
     public function playIdTooShort(): string
@@ -129,6 +146,21 @@ trait Fixtures
     public function playTypeTooShort(): string
     {
         return $this->randomStringTooShort(Play::TYPE_LENGTH_MINIMUM);
+    }
+
+    public function plays(): Plays
+    {
+        $params = $this->validPlayParams();
+
+        return new Plays(...$params);
+    }
+
+    public function playsWithPlay(Play $play): Plays
+    {
+        $params   = $this->validPlayParams();
+        $params[] = $play;
+
+        return new Plays(...$params);
     }
 
     public function validPerformanceParams(): array
