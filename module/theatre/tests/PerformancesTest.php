@@ -3,6 +3,7 @@
 namespace Theatre\Tests;
 
 use PHPUnit\Framework\TestCase;
+use Theatre\Performance;
 use Theatre\Performances;
 use TypeError;
 
@@ -26,5 +27,7 @@ class PerformancesTest extends TestCase
         $performances = new Performances(...$validParams);
 
         $this->assertSame($validParams, $performances->getArrayCopy());
+        $this->assertSame(reset($validParams), $performances->current());
+        $this->assertInstanceOf(Performance::class, $performances->current());
     }
 }

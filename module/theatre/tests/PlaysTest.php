@@ -2,6 +2,7 @@
 
 namespace Theatre\Tests;
 
+use Theatre\Play;
 use Theatre\Plays;
 use PHPUnit\Framework\TestCase;
 use TypeError;
@@ -23,8 +24,10 @@ class PlaysTest extends TestCase
     {
         $validParams = $this->validPlayParams();
 
-        $performances = new Plays(...$validParams);
+        $plays = new Plays(...$validParams);
 
-        $this->assertSame($validParams, $performances->getArrayCopy());
+        $this->assertSame($validParams, $plays->getArrayCopy());
+        $this->assertSame(reset($validParams), $plays->current());
+        $this->assertInstanceOf(Play::class, $plays->current());
     }
 }
