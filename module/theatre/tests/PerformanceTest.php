@@ -13,7 +13,7 @@ class PerformanceTest extends TestCase
 
     public function testPerformancePlayIdCannotBeTooLong(): void
     {
-        $playId   = $this->playIdTooLong();
+        $playId   = $this->performancePlayIdTooLong();
         $audience = $this->audience();
 
         $this->expectException(InvalidArgumentException::class);
@@ -26,7 +26,7 @@ class PerformanceTest extends TestCase
 
     public function testPerformancePlayIdCannotBeTooShort(): void
     {
-        $playId   = $this->playIdTooShort();
+        $playId   = $this->performancePlayIdTooShort();
         $audience = $this->audience();
 
         $this->expectException(InvalidArgumentException::class);
@@ -39,7 +39,7 @@ class PerformanceTest extends TestCase
 
     public function testPerformanceAudienceCannotBeAboveMaximum(): void
     {
-        $playId   = $this->playId();
+        $playId   = $this->performancePlayId();
         $audience = $this->audienceAboveMaximum();
 
         $this->expectException(InvalidArgumentException::class);
@@ -52,7 +52,7 @@ class PerformanceTest extends TestCase
 
     public function testPerformanceAudienceCannotBeLowerThanMinimum(): void
     {
-        $playId   = $this->playId();
+        $playId   = $this->performancePlayId();
         $audience = $this->audienceLowerThanMinimum();
 
         $this->expectException(InvalidArgumentException::class);
@@ -77,7 +77,7 @@ class PerformanceTest extends TestCase
 
     public function testPerformanceReturnsValidPlayIdAndAudience(): void
     {
-        $playId   = $this->playId();
+        $playId   = $this->performancePlayId();
         $audience = $this->audience();
 
         $performance = new Performance($playId, $audience);
