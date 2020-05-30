@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Theatre;
+namespace Theatre\Play;
 
 use InvalidArgumentException;
 
-class PlayId
+class Id
 {
     private string $id;
 
@@ -21,12 +21,17 @@ class PlayId
         $this->id = $id;
     }
 
-    public static function create(string $id): PlayId
+    public static function create(string $id): Id
     {
         return new self($id);
     }
 
-    public function id(): string
+    public function areEquals(Id $id): bool
+    {
+        return $this->id === $id->value();
+    }
+
+    public function value(): string
     {
         return $this->id;
     }

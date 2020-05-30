@@ -10,34 +10,6 @@ class PlayTest extends TestCase
 {
     use Fixtures;
 
-    public function testPlayIdCannotBeTooLong(): void
-    {
-        $id   = $this->playIdTooLong();
-        $name = $this->playName();
-        $type = $this->playType();
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            sprintf('Length of %s must be between %d-%d chars.', Play::PARAM_ID, Play::ID_LENGTH_MINIMUM, Play::ID_LENGTH_MAXIMUM)
-        );
-
-        new Play($id, $name, $type);
-    }
-
-    public function testPlayIdCannotBeTooShort(): void
-    {
-        $id   = $this->playIdTooShort();
-        $name = $this->playName();
-        $type = $this->playType();
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            sprintf('Length of %s must be between %d-%d chars.', Play::PARAM_ID, Play::ID_LENGTH_MINIMUM, Play::ID_LENGTH_MAXIMUM)
-        );
-
-        new Play($id, $name, $type);
-    }
-
     public function testPlayNameCannotBeTooLong(): void
     {
         $id   = $this->playId();
@@ -49,7 +21,7 @@ class PlayTest extends TestCase
             sprintf('Length of %s must be between %d-%d chars.', Play::PARAM_NAME, Play::NAME_LENGTH_MINIMUM, Play::NAME_LENGTH_MAXIMUM)
         );
 
-        new Play($id, $name, $type);
+        Play::create($id, $name, $type);
     }
 
     public function testPlayNameCannotBeTooShort(): void
@@ -63,7 +35,7 @@ class PlayTest extends TestCase
             sprintf('Length of %s must be between %d-%d chars.', Play::PARAM_NAME, Play::NAME_LENGTH_MINIMUM, Play::NAME_LENGTH_MAXIMUM)
         );
 
-        new Play($id, $name, $type);
+        Play::create($id, $name, $type);
     }
 
     public function testPlayReturnsValidIdAndNameAndType(): void
@@ -72,7 +44,7 @@ class PlayTest extends TestCase
         $name = $this->playName();
         $type = $this->playType();
 
-        $play = new Play($id, $name, $type);
+        $play = Play::create($id, $name, $type);;
 
         $this->assertSame($id, $play->id());
         $this->assertSame($name, $play->name());
@@ -90,7 +62,7 @@ class PlayTest extends TestCase
             sprintf('Length of %s must be between %d-%d chars.', Play::PARAM_TYPE, Play::TYPE_LENGTH_MINIMUM, Play::TYPE_LENGTH_MAXIMUM)
         );
 
-        new Play($id, $name, $type);
+        Play::create($id, $name, $type);;
     }
 
     public function testPlayTypeCannotBeTooShort(): void
@@ -104,6 +76,6 @@ class PlayTest extends TestCase
             sprintf('Length of %s must be between %d-%d chars.', Play::PARAM_TYPE, Play::TYPE_LENGTH_MINIMUM, Play::TYPE_LENGTH_MAXIMUM)
         );
 
-        new Play($id, $name, $type);
+        Play::create($id, $name, $type);;
     }
 }

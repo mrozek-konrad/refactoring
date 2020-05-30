@@ -4,25 +4,15 @@ declare(strict_types=1);
 
 namespace Theatre;
 
-use InvalidArgumentException;
+use Theatre\Play\Id;
 
 class Performance
 {
-    public const  PLAY_ID_LENGTH_MINIMUM = 3;
-    public const  PLAY_ID_LENGTH_MAXIMUM = 15;
-
-    private string   $playId;
+    private Id   $playId;
     private Audience $audience;
 
-    public function __construct(string $playId, Audience $audience)
+    public function __construct(Id $playId, Audience $audience)
     {
-        $playIdLength = strlen($playId);
-
-        if ($playIdLength < self::PLAY_ID_LENGTH_MINIMUM || $playIdLength > self::PLAY_ID_LENGTH_MAXIMUM) {
-            throw new InvalidArgumentException(
-                sprintf('Length of playId must be between %d-%d chars.', self::PLAY_ID_LENGTH_MINIMUM, self::PLAY_ID_LENGTH_MAXIMUM)
-            );
-        }
         $this->playId   = $playId;
         $this->audience = $audience;
     }
@@ -32,7 +22,7 @@ class Performance
         return $this->audience;
     }
 
-    public function playId(): string
+    public function playId(): Id
     {
         return $this->playId;
     }

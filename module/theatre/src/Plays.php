@@ -6,6 +6,7 @@ namespace Theatre;
 
 use ArrayIterator;
 use RuntimeException;
+use Theatre\Play\Id;
 
 class Plays extends ArrayIterator
 {
@@ -21,17 +22,17 @@ class Plays extends ArrayIterator
         return parent::current();
     }
 
-    public function find(string $id): Play
+    public function find(Id $id): Play
     {
         $result = array_filter(
             $this->getArrayCopy(),
-            function (Play $e) use ($id) {
-                return $e->id() === $id;
+            function (Play $play) use ($id) {
+                return $play->id()->areEquals($id);
             }
         );
 
         if (empty($result)) {
-            throw new RuntimeException(sprintf('Play with id %s not found', $id));
+            throw new RuntimeException(sprintf('Play with id %s not found', $id->value()));
         }
 
         return reset($result);
@@ -42,11 +43,11 @@ class Plays extends ArrayIterator
         $ids = [];
 
         foreach ($plays as $play) {
-            if (in_array($play->id(), $ids, true)) {
-                throw new RuntimeException('Cannot add second play with id ' . $play->id());
+            if (in_array($play->id()->value(), $ids, true)) {
+                throw new RuntimeException('Cannot add second play with id ' . $play->id()->value());
             }
 
-            $ids[] = $play->id();
+            $ids[] = $play->id()->value();
         }
     }
 }

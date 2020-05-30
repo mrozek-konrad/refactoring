@@ -8,6 +8,7 @@ use Theatre\Customer;
 use Theatre\Performance;
 use Theatre\Performances;
 use Theatre\Play;
+use Theatre\Play\Id;
 use Theatre\Plays;
 use Theatre\Tests\Fixtures\AmountRulesFixtures;
 
@@ -45,7 +46,7 @@ trait Fixtures
         return [$this->randomInt(PHP_INT_MIN, PHP_INT_MAX), $this->randomInt(PHP_INT_MIN, PHP_INT_MAX)];
     }
 
-    public function invalidPlayParamsWithFewPlaysWithTheSameId(string $id): array
+    public function invalidPlayParamsWithFewPlaysWithTheSameId(Id $id): array
     {
         $params = [];
 
@@ -58,22 +59,7 @@ trait Fixtures
 
     public function performance(): Performance
     {
-        return new Performance($this->performancePlayId(), $this->audience());
-    }
-
-    public function performancePlayId(): string
-    {
-        return $this->randomString($this->randomInt(Performance::PLAY_ID_LENGTH_MINIMUM, Performance::PLAY_ID_LENGTH_MAXIMUM));
-    }
-
-    public function performancePlayIdTooLong(): string
-    {
-        return $this->randomStringTooLong(Performance::PLAY_ID_LENGTH_MAXIMUM);
-    }
-
-    public function performancePlayIdTooShort(): string
-    {
-        return $this->randomStringTooShort(Performance::PLAY_ID_LENGTH_MINIMUM);
+        return new Performance($this->playId(), $this->audience());
     }
 
     public function performances(): Performances
@@ -81,14 +67,14 @@ trait Fixtures
         return new Performances(...$this->validPerformanceParams());
     }
 
-    public function play(?string $id = null): Play
+    public function play(?Id $id = null): Play
     {
         return new Play($id ?? $this->playId(), $this->playName(), $this->playType());
     }
 
-    public function playId(): string
+    public function playId(): Id
     {
-        return $this->randomString($this->randomInt(Play::ID_LENGTH_MINIMUM, Play::ID_LENGTH_MAXIMUM));
+        return Id::create($this->playIdValue());
     }
 
     public function playIdTooLong(): string
@@ -109,16 +95,6 @@ trait Fixtures
     public function playIdValue(): string
     {
         return $this->randomString($this->randomInt(3, 15));
-    }
-
-    public function invalidPlayId(): string
-    {
-        return $this->playIdTooLong();
-    }
-
-    public function playIdTooShort(): string
-    {
-        return $this->randomStringTooShort(Play::ID_LENGTH_MINIMUM);
     }
 
     public function playName(): string
@@ -151,9 +127,9 @@ trait Fixtures
         return $this->randomStringTooShort(Play::TYPE_LENGTH_MINIMUM);
     }
 
-    public function plays(): Plays
+    public function plays(array $plays = []): Plays
     {
-        $params = $this->validPlayParams();
+        $params = $this->validPlayParams() ?? $plays;
 
         return new Plays(...$params);
     }

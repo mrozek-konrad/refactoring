@@ -11,32 +11,6 @@ class PerformanceTest extends TestCase
 {
     use Fixtures;
 
-    public function testPerformancePlayIdCannotBeTooLong(): void
-    {
-        $playId   = $this->performancePlayIdTooLong();
-        $audience = $this->audience();
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            sprintf('Length of playId must be between %d-%d chars.', Performance::PLAY_ID_LENGTH_MINIMUM, Performance::PLAY_ID_LENGTH_MAXIMUM)
-        );
-
-        new Performance($playId, $audience);
-    }
-
-    public function testPerformancePlayIdCannotBeTooShort(): void
-    {
-        $playId   = $this->performancePlayIdTooShort();
-        $audience = $this->audience();
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            sprintf('Length of playId must be between %d-%d chars.', Performance::PLAY_ID_LENGTH_MINIMUM, Performance::PLAY_ID_LENGTH_MAXIMUM)
-        );
-
-        new Performance($playId, $audience);
-    }
-
     public function testCustomerNameCannotBeTooShort(): void
     {
         $name = $this->customerNameTooShort();
@@ -51,7 +25,7 @@ class PerformanceTest extends TestCase
 
     public function testPerformanceReturnsValidPlayIdAndAudience(): void
     {
-        $playId   = $this->performancePlayId();
+        $playId   = $this->playId();
         $audience = $this->audience();
 
         $performance = new Performance($playId, $audience);

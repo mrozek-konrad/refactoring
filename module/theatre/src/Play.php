@@ -5,15 +5,12 @@ declare(strict_types=1);
 namespace Theatre;
 
 use InvalidArgumentException;
+use Theatre\Play\Id;
 
 class Play
 {
-    public const PARAM_ID   = 'id';
     public const PARAM_TYPE = 'type';
     public const PARAM_NAME = 'name';
-
-    public const ID_LENGTH_MINIMUM = 2;
-    public const ID_LENGTH_MAXIMUM = 20;
 
     public const NAME_LENGTH_MINIMUM = 3;
     public const NAME_LENGTH_MAXIMUM = 70;
@@ -21,13 +18,12 @@ class Play
     public const TYPE_LENGTH_MINIMUM = 5;
     public const TYPE_LENGTH_MAXIMUM = 15;
 
-    private string $id;
+    private Id $id;
     private string $name;
     private string $type;
 
-    public function __construct(string $id, string $name, string $type)
+    public function __construct(Id $id, string $name, string $type)
     {
-        $this->validateLength($id, self::PARAM_ID, self::ID_LENGTH_MINIMUM, self::ID_LENGTH_MAXIMUM);
         $this->validateLength($name, self::PARAM_NAME, self::NAME_LENGTH_MINIMUM, self::NAME_LENGTH_MAXIMUM);
         $this->validateLength($type, self::PARAM_TYPE, self::TYPE_LENGTH_MINIMUM, self::TYPE_LENGTH_MAXIMUM);
 
@@ -36,7 +32,12 @@ class Play
         $this->type = $type;
     }
 
-    public function id(): string
+    public static function create(Id $id, string $name, string $type): Play
+    {
+        return new self($id, $name, $type);
+    }
+
+    public function id(): Id
     {
         return $this->id;
     }

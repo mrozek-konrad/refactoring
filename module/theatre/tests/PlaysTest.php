@@ -23,24 +23,13 @@ class PlaysTest extends TestCase
         $this->assertSame($play, $foundPlay);
     }
 
-    public function testThrowsErrorWhenYouFindingPlayWhichDoesNotExistInPlays(): void
-    {
-        $playId = $this->invalidPlayId();
-        $plays  = $this->plays();
-
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage(sprintf('Play with id %s not found', $playId));
-
-        $plays->find($playId);
-    }
-
     public function testCannotAddToCollectionTwoPlaysWithTheSameId(): void
     {
-        $id            = $this->playId();
-        $invalidParams = $this->invalidPlayParamsWithFewPlaysWithTheSameId($id);
+        $playId        = $this->playId();
+        $invalidParams = $this->invalidPlayParamsWithFewPlaysWithTheSameId($playId);
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Cannot add second play with id ' . $id);
+        $this->expectExceptionMessage('Cannot add second play with id ' . $playId->value());
 
         new Plays(...$invalidParams);
     }
@@ -63,5 +52,16 @@ class PlaysTest extends TestCase
         $this->expectException(TypeError::class);
 
         new Plays(...$invalidParams);
+    }
+
+    public function testThrowsErrorWhenYouFindingPlayWhichDoesNotExistInPlays(): void
+    {
+        $plays  = $this->plays([$this->play(), $this->play()]);
+        $somePlayId = $this->playId();
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage(sprintf('Play with id %s not found', $somePlayId->value()));
+
+        $plays->find($somePlayId);
     }
 }
