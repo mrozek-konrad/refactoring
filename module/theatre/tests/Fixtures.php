@@ -96,6 +96,21 @@ trait Fixtures
         return $this->randomStringTooLong(Play::ID_LENGTH_MAXIMUM);
     }
 
+    public function playIdValueTooLong(): string
+    {
+        return $this->randomStringTooLong(15);
+    }
+
+    public function playIdValueTooShort(): string
+    {
+        return $this->randomStringTooShort(3);
+    }
+
+    public function playIdValue(): string
+    {
+        return $this->randomString($this->randomInt(3, 15));
+    }
+
     public function invalidPlayId(): string
     {
         return $this->playIdTooLong();
