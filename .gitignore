@@ -1,4 +1,5 @@
 .idea/
 vendor/
 tools/
-composer.lock
+/composer.lock
+/junit.xml
