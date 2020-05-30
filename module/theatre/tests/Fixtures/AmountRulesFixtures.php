@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Theatre\Tests\Fixtures;
 
-use Theatre\AmountRules\AmountForAudienceAboveThanMinimumAudience;
+use Theatre\AmountRules\BonusAmountForAudienceAboveThanMinimumAudience;
 use Theatre\AmountRules\BonusAmountForEachViewer;
 use Theatre\AmountRules\BaseAmountForPerformance;
 
@@ -42,12 +42,12 @@ trait AmountRulesFixtures
         return $this->randomInt(1, $audience - 1);
     }
 
-    protected function buildAmountForAudienceAboveThanMinimumAudienceRule(
-        ?int $amountIfAudienceIsAboveMinimum = null,
+    protected function buildBonusAmountForAudienceAboveThanMinimumAudienceRule(
+        ?int $bonusAmountIfAudienceIsAboveMinimum = null,
         ?int $minimumAudience = null
-    ): AmountForAudienceAboveThanMinimumAudience {
-        return new AmountForAudienceAboveThanMinimumAudience(
-            $amountIfAudienceIsAboveMinimum ?? $this->amount(),
+    ): BonusAmountForAudienceAboveThanMinimumAudience {
+        return new BonusAmountForAudienceAboveThanMinimumAudience(
+            $bonusAmountIfAudienceIsAboveMinimum ?? $this->amount(),
             $minimumAudience ?? $this->audience(),
         );
     }
