@@ -36,22 +36,22 @@ class Amount
 
     public function add(Amount $amountToAdd): Amount
     {
-        return new self($this->amount + $amountToAdd->amount());
+        return new self($this->amount + $amountToAdd->value());
     }
 
-    public function amount(): int
+    public function value(): int
     {
         return $this->amount;
     }
 
     public function isLessThan(Amount $amount): bool
     {
-        return $this->amount < $amount->amount();
+        return $this->amount < $amount->value();
     }
 
     public function isGreaterThan(Amount $amount): bool
     {
-        return $this->amount > $amount->amount();
+        return $this->amount > $amount->value();
     }
 
     public function multiply(int $value): Amount

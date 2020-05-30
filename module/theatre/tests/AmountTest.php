@@ -18,7 +18,7 @@ class AmountTest extends TestCase
 
         $resultAmount = $firstAmountValue->add($secondAmountValue);
 
-        $this->assertSame($resultAmount->amount(), $firstAmountValue->amount() + $secondAmountValue->amount());
+        $this->assertSame($resultAmount->value(), $firstAmountValue->value() + $secondAmountValue->value());
     }
 
     public function testAmountCanBeMultipliedBySomeValue(): void
@@ -28,7 +28,7 @@ class AmountTest extends TestCase
 
         $resultAmount = $amount->multiply($multiplyBy);
 
-        $this->assertSame($resultAmount->amount(), $amount->amount() * $multiplyBy);
+        $this->assertSame($resultAmount->value(), $amount->value() * $multiplyBy);
     }
 
     public function testAmountCannotBeLessThanZero(): void
@@ -45,7 +45,7 @@ class AmountTest extends TestCase
     {
         $amount = Amount::zero();
 
-        $this->assertSame(0, $amount->amount());
+        $this->assertSame(0, $amount->value());
     }
 
     public function testReturnsCorrectResponseWhenIsEqualToOtherAmount(): void
@@ -86,6 +86,6 @@ class AmountTest extends TestCase
 
         $amount = Amount::create($amountValue);
 
-        $this->assertSame($amountValue, $amount->amount());
+        $this->assertSame($amountValue, $amount->value());
     }
 }

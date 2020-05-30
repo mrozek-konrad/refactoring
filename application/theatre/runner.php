@@ -45,11 +45,11 @@ function statement(Invoice $invoice, Plays $plays, AmountRules $amountRulesForCo
             $volumeCredits += floor($performance->audience() / 5);
         }
 
-        $result      .= ' ' . $play->name() . ': ' . number_format($amount->amount() / 100) . ' (liczba miejsc:' . $performance->audience() . ')' . PHP_EOL;
+        $result      .= ' ' . $play->name() . ': ' . number_format($amount->value() / 100) . ' (liczba miejsc:' . $performance->audience() . ')' . PHP_EOL;
         $totalAmount = $totalAmount->add($amount);
     }
 
-    $result .= "Naleznosc: " . number_format($totalAmount->amount() / 100) . PHP_EOL;
+    $result .= "Naleznosc: " . number_format($totalAmount->value() / 100) . PHP_EOL;
     $result .= "Punkty promocyjne: " . $volumeCredits . PHP_EOL;
 
     return $result;
