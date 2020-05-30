@@ -6,6 +6,7 @@ namespace Theatre\Tests\Fixtures;
 
 use Theatre\AmountRules\AmountForAudienceAboveThanMinimumAudience;
 use Theatre\AmountRules\AmountForEachViewer;
+use Theatre\AmountRules\BaseAmountForPerformance;
 
 trait AmountRulesFixtures
 {
@@ -54,5 +55,10 @@ trait AmountRulesFixtures
     protected function buildAmountForEachViewerRule(?int $amountForEachViewer = null): AmountForEachViewer
     {
         return new AmountForEachViewer($amountForEachViewer ?? $this->amount());
+    }
+
+    protected function buildBaseAmountForPerformanceRule(?int $amountForPerformance = null): BaseAmountForPerformance
+    {
+        return new BaseAmountForPerformance($amountForPerformance ?? $this->amount());
     }
 }
