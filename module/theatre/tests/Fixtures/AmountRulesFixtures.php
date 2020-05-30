@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Theatre\Tests\Fixtures;
 
 use Theatre\AmountRules\AmountForAudienceAboveThanMinimumAudience;
+use Theatre\AmountRules\AmountForEachViewer;
 
 trait AmountRulesFixtures
 {
@@ -12,27 +13,27 @@ trait AmountRulesFixtures
 
     protected function amount(): int
     {
-        return $this->randomInt(1, PHP_INT_MAX);
+        return $this->randomInt(1, 100_000_000);
     }
 
     protected function amountLowerOrEqualsZero(): int
     {
-        return $this->randomInt(PHP_INT_MIN, 0);
+        return $this->randomInt(-100_000_000, 0);
     }
 
     protected function audience(): int
     {
-        return $this->randomInt(1, PHP_INT_MAX);
+        return $this->randomInt(1, 100_000);
     }
 
     protected function audienceAboveThan(int $audience): int
     {
-        return $this->randomInt($audience, PHP_INT_MAX);
+        return $this->randomInt($audience, 100_000_000);
     }
 
     protected function audienceLowerOrEqualsZero(): int
     {
-        return $this->randomInt(PHP_INT_MIN, 0);
+        return $this->randomInt(-100_000_000, 0);
     }
 
     protected function audienceLowerThan(int $audience): int
@@ -48,5 +49,10 @@ trait AmountRulesFixtures
             $amountIfAudienceIsAboveMinimum ?? $this->amount(),
             $minimumAudience ?? $this->audience(),
         );
+    }
+
+    protected function buildAmountForEachViewerRule(?int $amountForEachViewer = null): AmountForEachViewer
+    {
+        return new AmountForEachViewer($amountForEachViewer ?? $this->amount());
     }
 }
