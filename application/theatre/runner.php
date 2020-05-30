@@ -2,6 +2,7 @@
 
 require_once 'vendor/autoload.php';
 
+use Theatre\AmountRules;
 use Theatre\Customer;
 use Theatre\Invoice;
 use Theatre\Performance;
@@ -9,7 +10,7 @@ use Theatre\Performances;
 use Theatre\Play;
 use Theatre\Plays;
 
-function statement(Invoice $invoice, Plays $plays)
+function statement(Invoice $invoice, Plays $plays, AmountRules $amountRulesForComedy, AmountRules $amountRulesForTragedy)
 {
     $totalAmount   = 0;
     $volumeCredits = 0;
@@ -24,17 +25,14 @@ function statement(Invoice $invoice, Plays $plays)
 
         switch ($play->type()) {
             case "tragedy":
-                $amount = 40000;
-                if ($performance->audience() > 30) {
-                    $amount += 1000 * ($performance->audience() - 30);
+                foreach ($amountRulesForTragedy as $amountRule) {
+                    $amount += $amountRule->calculateAmount($performance->audience());
                 }
                 break;
             case "comedy":
-                $amount = 30000;
-                if ($performance->audience() > 20) {
-                    $amount += 10000 + 500 * ($performance->audience() - 20);
+                foreach ($amountRulesForComedy as $amountRule) {
+                    $amount += $amountRule->calculateAmount($performance->audience());
                 }
-                $amount += 300 * $performance->audience();
                 break;
             default:
                 throw new Exception('Unknown audience type ' . $play->type());
@@ -65,6 +63,21 @@ foreach ($rawPlays as $id => $rawPlay) {
     $plays[] = new Play($id, $rawPlay['name'], $rawPlay['type']);
 }
 
+$amountRulesForComedy = new AmountRules(
+    ... [
+            new AmountRules\BaseAmountForPerformance(30000),
+            new AmountRules\BonusAmountForAudienceAboveThanMinimumAudience(10000, 20),
+            new AmountRules\BonusAmountForEachViewerAboveMinimumAudience(500, 20),
+            new AmountRules\BonusAmountForEachViewer(300),
+    ]
+);
+$amountRulesForTragedy = new AmountRules(
+    ... [
+            new AmountRules\BaseAmountForPerformance(40000),
+            new AmountRules\BonusAmountForEachViewerAboveMinimumAudience(1000, 30),
+    ]
+);
+
 foreach ($invoices as $invoice) {
     $performances = [];
 
@@ -75,5 +88,5 @@ foreach ($invoices as $invoice) {
     $invoice = new Invoice(new Customer($invoice['customer']), new Performances(...$performances));
     $plays   = new Plays(...$plays);
 
-    echo statement($invoice, $plays) . PHP_EOL;
+    echo statement($invoice, $plays, $amountRulesForComedy, $amountRulesForTragedy) . PHP_EOL;
 }
