@@ -29,9 +29,19 @@ trait AmountRulesFixtures
         return $this->randomInt(1, 100_000);
     }
 
+    protected function audienceValue(): int
+    {
+        return $this->randomInt(1, 100_000);
+    }
+
     protected function audienceAboveThan(int $audience): int
     {
         return $this->randomInt($audience, 100_000_000);
+    }
+
+    protected function audienceValueLowerOrEqualsZero(): int
+    {
+        return $this->randomInt(-100_000_000, 0);
     }
 
     protected function audienceLowerOrEqualsZero(): int
