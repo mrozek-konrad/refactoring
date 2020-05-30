@@ -4,23 +4,19 @@ declare(strict_types=1);
 
 namespace Theatre\AmountRules;
 
-use InvalidArgumentException;
+use Theatre\Amount;
 use Theatre\AmountRule;
 
 class BaseAmountForPerformance implements AmountRule
 {
-    private int $amountForPerformance;
+    private Amount $amountForPerformance;
 
-    public function __construct(int $amountForPerformance)
+    public function __construct(Amount $amountForPerformance)
     {
-        if ($amountForPerformance <= 0) {
-            throw new InvalidArgumentException('Amount for performance must be above zero.');
-        }
-
         $this->amountForPerformance = $amountForPerformance;
     }
 
-    public function calculateAmount(int $audience): int
+    public function calculateAmount(int $audience): Amount
     {
         return $this->amountForPerformance;
     }

@@ -2,6 +2,7 @@
 
 require_once 'vendor/autoload.php';
 
+use Theatre\Amount;
 use Theatre\AmountRules;
 use Theatre\Customer;
 use Theatre\Invoice;
@@ -12,7 +13,7 @@ use Theatre\Plays;
 
 function statement(Invoice $invoice, Plays $plays, AmountRules $amountRulesForComedy, AmountRules $amountRulesForTragedy)
 {
-    $totalAmount   = 0;
+    $totalAmount   = Amount::zero();
     $volumeCredits = 0;
 
     $invoiceCustomer = $invoice->customer()->name();
@@ -21,17 +22,17 @@ function statement(Invoice $invoice, Plays $plays, AmountRules $amountRulesForCo
 
     foreach ($invoice->performances() as $performance) {
         $play = $plays->find($performance->playId());
-        $amount = 0;
+        $amount = Amount::zero();
 
         switch ($play->type()) {
             case "tragedy":
                 foreach ($amountRulesForTragedy as $amountRule) {
-                    $amount += $amountRule->calculateAmount($performance->audience());
+                    $amount = $amount->add($amountRule->calculateAmount($performance->audience()));
                 }
                 break;
             case "comedy":
                 foreach ($amountRulesForComedy as $amountRule) {
-                    $amount += $amountRule->calculateAmount($performance->audience());
+                    $amount = $amount->add($amountRule->calculateAmount($performance->audience()));
                 }
                 break;
             default:
@@ -44,11 +45,11 @@ function statement(Invoice $invoice, Plays $plays, AmountRules $amountRulesForCo
             $volumeCredits += floor($performance->audience() / 5);
         }
 
-        $result      .= ' ' . $play->name() . ': ' . number_format($amount / 100) . ' (liczba miejsc:' . $performance->audience() . ')' . PHP_EOL;
-        $totalAmount += $amount;
+        $result      .= ' ' . $play->name() . ': ' . number_format($amount->amount() / 100) . ' (liczba miejsc:' . $performance->audience() . ')' . PHP_EOL;
+        $totalAmount = $totalAmount->add($amount);
     }
 
-    $result .= "Naleznosc: " . number_format($totalAmount / 100) . PHP_EOL;
+    $result .= "Naleznosc: " . number_format($totalAmount->amount() / 100) . PHP_EOL;
     $result .= "Punkty promocyjne: " . $volumeCredits . PHP_EOL;
 
     return $result;
@@ -65,16 +66,16 @@ foreach ($rawPlays as $id => $rawPlay) {
 
 $amountRulesForComedy = new AmountRules(
     ... [
-            new AmountRules\BaseAmountForPerformance(30000),
-            new AmountRules\BonusAmountForAudienceAboveThanMinimumAudience(10000, 20),
-            new AmountRules\BonusAmountForEachViewerAboveMinimumAudience(500, 20),
-            new AmountRules\BonusAmountForEachViewer(300),
+            new AmountRules\BaseAmountForPerformance(Amount::create(30000)),
+            new AmountRules\BonusAmountForAudienceAboveThanMinimumAudience(Amount::create(10000), 20),
+            new AmountRules\BonusAmountForEachViewerAboveMinimumAudience(Amount::create(500), 20),
+            new AmountRules\BonusAmountForEachViewer(Amount::create(300)),
     ]
 );
 $amountRulesForTragedy = new AmountRules(
     ... [
-            new AmountRules\BaseAmountForPerformance(40000),
-            new AmountRules\BonusAmountForEachViewerAboveMinimumAudience(1000, 30),
+            new AmountRules\BaseAmountForPerformance(Amount::create(40000)),
+            new AmountRules\BonusAmountForEachViewerAboveMinimumAudience(Amount::create(1000), 30),
     ]
 );
 

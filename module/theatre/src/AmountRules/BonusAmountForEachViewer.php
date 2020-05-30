@@ -4,24 +4,20 @@ declare(strict_types=1);
 
 namespace Theatre\AmountRules;
 
-use InvalidArgumentException;
+use Theatre\Amount;
 use Theatre\AmountRule;
 
 class BonusAmountForEachViewer implements AmountRule
 {
-    private int $bonusAmountForEachViewer;
+    private Amount $bonusAmountForEachViewer;
 
-    public function __construct(int $bonusAmountForEachViewer)
+    public function __construct(Amount $bonusAmountForEachViewer)
     {
-        if ($bonusAmountForEachViewer <= 0) {
-            throw new InvalidArgumentException('Bonus amount for each viewer must be above zero.');
-        }
-
         $this->bonusAmountForEachViewer = $bonusAmountForEachViewer;
     }
 
-    public function calculateAmount(int $audience): int
+    public function calculateAmount(int $audience): Amount
     {
-        return (int) ($this->bonusAmountForEachViewer * $audience);
+        return $this->bonusAmountForEachViewer->multiply($audience);
     }
 }

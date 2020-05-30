@@ -4,22 +4,13 @@ namespace Theatre\Tests\AmountRules;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Theatre\Amount;
 use Theatre\AmountRule;
 use Theatre\Tests\Fixtures\AmountRulesFixtures;
 
 class BonusAmountForEachViewerAboveMinimumAudienceTest extends TestCase
 {
     use AmountRulesFixtures;
-
-    public function testAmountMustBeAboveZero(): void
-    {
-        $bonusAmount = $this->amountLowerOrEqualsZero();
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Bonus amount for each viewer above minimum audience must be above zero.');
-
-        $this->buildBonusAmountForEachViewerAboveMinimumAudienceRule($bonusAmount);
-    }
 
     public function testCalculatesCorrectBonusAmountIfAudienceIsAboveMinimumAudience(): void
     {
@@ -28,12 +19,12 @@ class BonusAmountForEachViewerAboveMinimumAudienceTest extends TestCase
         $audience        = $this->audienceAboveThan($minimumAudience);
 
         $audienceAboveMinimumAudience = $audience - $minimumAudience;
-        $expectedBonusAmount          = $audienceAboveMinimumAudience * $bonusAmount;
+        $expectedBonusAmount          = $bonusAmount->multiply($audienceAboveMinimumAudience);
 
         $rule             = $this->buildBonusAmountForEachViewerAboveMinimumAudienceRule($bonusAmount, $minimumAudience);
         $calculatedAmount = $rule->calculateAmount($audience);
 
-        $this->assertSame($expectedBonusAmount, $calculatedAmount);
+        $this->assertTrue($expectedBonusAmount->areEquals($calculatedAmount));
     }
 
     public function testCalculatesCorrectBonusAmountIfAudienceIsLowerThanMinimumAudience(): void
@@ -42,12 +33,12 @@ class BonusAmountForEachViewerAboveMinimumAudienceTest extends TestCase
         $minimumAudience = $this->audience();
         $audience        = $this->audienceLowerThan($minimumAudience);
 
-        $expectedBonusAmount = 0;
+        $expectedBonusAmount = Amount::zero();
 
         $rule             = $this->buildBonusAmountForEachViewerAboveMinimumAudienceRule($bonusAmount, $minimumAudience);
         $calculatedAmount = $rule->calculateAmount($audience);
 
-        $this->assertSame($expectedBonusAmount, $calculatedAmount);
+        $this->assertTrue($expectedBonusAmount->areEquals($calculatedAmount));
     }
 
     public function testIsTypeOfAmountRule(): void

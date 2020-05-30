@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Theatre\Tests\Fixtures;
 
+use Theatre\Amount;
 use Theatre\AmountRules\BaseAmountForPerformance;
 use Theatre\AmountRules\BonusAmountForAudienceAboveThanMinimumAudience;
 use Theatre\AmountRules\BonusAmountForEachViewer;
@@ -13,14 +14,14 @@ trait AmountRulesFixtures
 {
     use RandomScalarValuesFixtures;
 
-    protected function amount(): int
+    protected function amount(): Amount
     {
-        return $this->randomInt(1, 100_000_000);
+        return Amount::create($this->randomInt(1, 100_000_000));
     }
 
-    protected function amountLowerOrEqualsZero(): int
+    protected function smallValue(): int
     {
-        return $this->randomInt(-100_000_000, 0);
+        return $this->randomInt(1, 100);
     }
 
     protected function audience(): int
@@ -43,14 +44,14 @@ trait AmountRulesFixtures
         return $this->randomInt(1, $audience - 1);
     }
 
-    protected function buildBaseAmountForPerformanceRule(?int $amountForPerformance = null): BaseAmountForPerformance
+    protected function buildBaseAmountForPerformanceRule(?Amount $amountForPerformance = null): BaseAmountForPerformance
     {
         return new BaseAmountForPerformance($amountForPerformance ?? $this->amount());
     }
 
-    protected function amountValueLowerOrEqualZero(): int
+    protected function amountValueLessThanZero(): int
     {
-        return $this->randomInt(-100_000_000, 0);
+        return $this->randomInt(-100_000_000, -1);
     }
 
     protected function amountValue(): int
@@ -69,7 +70,7 @@ trait AmountRulesFixtures
     }
 
     protected function buildBonusAmountForAudienceAboveThanMinimumAudienceRule(
-        ?int $bonusAmountIfAudienceIsAboveMinimum = null,
+        ?Amount $bonusAmountIfAudienceIsAboveMinimum = null,
         ?int $minimumAudience = null
     ): BonusAmountForAudienceAboveThanMinimumAudience {
         return new BonusAmountForAudienceAboveThanMinimumAudience(
@@ -98,7 +99,7 @@ trait AmountRulesFixtures
     }
 
     protected function buildBonusAmountForEachViewerAboveMinimumAudienceRule(
-        ?int $bonusAmount = null,
+        ?Amount $bonusAmount = null,
         ?int $minimumAudience = null
     ): BonusAmountForEachViewerAboveMinimumAudience {
         return new BonusAmountForEachViewerAboveMinimumAudience(
@@ -107,7 +108,7 @@ trait AmountRulesFixtures
         );
     }
 
-    protected function buildBonusAmountForEachViewerRule(?int $bonusAmountForEachViewer = null): BonusAmountForEachViewer
+    protected function buildBonusAmountForEachViewerRule(?Amount $bonusAmountForEachViewer = null): BonusAmountForEachViewer
     {
         return new BonusAmountForEachViewer($bonusAmountForEachViewer ?? $this->amount());
     }

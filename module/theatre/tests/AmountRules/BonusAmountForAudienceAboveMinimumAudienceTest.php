@@ -4,23 +4,13 @@ namespace Theatre\Tests\AmountRules;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Theatre\Amount;
 use Theatre\AmountRule;
-use Theatre\AmountRules\BonusAmountForAudienceAboveThanMinimumAudience;
 use Theatre\Tests\Fixtures\AmountRulesFixtures;
 
 class BonusAmountForAudienceAboveMinimumAudienceTest extends TestCase
 {
     use AmountRulesFixtures;
-
-    public function testAmountMustBeAboveZero(): void
-    {
-        $amount = $this->amountLowerOrEqualsZero();
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Bonus amount if audience is above than minimum must be above zero.');
-
-        $this->buildBonusAmountForAudienceAboveThanMinimumAudienceRule($amount);
-    }
 
     public function testCalculatesCorrectResultIfAudienceIsAboveMinimum(): void
     {
@@ -31,7 +21,7 @@ class BonusAmountForAudienceAboveMinimumAudienceTest extends TestCase
         $rule             = $this->buildBonusAmountForAudienceAboveThanMinimumAudienceRule($bonusAmountIfAudienceIsAboveMinimum, $minimumAudience);
         $calculatedAmount = $rule->calculateAmount($audienceAboveThanMinimumAudience);
 
-        $this->assertSame($bonusAmountIfAudienceIsAboveMinimum, $calculatedAmount);
+        $this->assertTrue($bonusAmountIfAudienceIsAboveMinimum->areEquals($calculatedAmount));
     }
 
     public function testCalculatesCorrectResultIfAudienceIsLowerThanMinimum(): void
@@ -43,7 +33,7 @@ class BonusAmountForAudienceAboveMinimumAudienceTest extends TestCase
         $rule             = $this->buildBonusAmountForAudienceAboveThanMinimumAudienceRule($bonusAmountIfAudienceIsAboveMinimum, $minimumAudience);
         $calculatedAmount = $rule->calculateAmount($audienceLowerThanMinimumAudience);
 
-        $this->assertSame(BonusAmountForAudienceAboveThanMinimumAudience::BONUS_AMOUNT_IF_AUDIENCE_IS_LOWER_THAN_MINIMUM, $calculatedAmount);
+        $this->assertTrue(Amount::zero()->areEquals($calculatedAmount));
     }
 
     public function testIsTypeOfAmountRule(): void

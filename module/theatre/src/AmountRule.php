@@ -6,5 +6,5 @@ namespace Theatre;
 
 interface AmountRule
 {
-    public function calculateAmount(int $audience): int;
+    public function calculateAmount(int $audience): Amount;
 }

@@ -11,21 +11,48 @@ class AmountTest extends TestCase
 {
     use AmountRulesFixtures;
 
-    public function testAmountMustBeAboveZero(): void
+    public function testAmountCanBeAddedToOtherAmount(): void
     {
-        $amountLowerOrEqualZero = $this->amountValueLowerOrEqualZero();
+        $firstAmountValue  = $this->amount();
+        $secondAmountValue = $this->amount();
+
+        $resultAmount = $firstAmountValue->add($secondAmountValue);
+
+        $this->assertSame($resultAmount->amount(), $firstAmountValue->amount() + $secondAmountValue->amount());
+    }
+
+    public function testAmountCanBeMultipliedBySomeValue(): void
+    {
+        $amount     = $this->amount();
+        $multiplyBy = $this->smallValue();
+
+        $resultAmount = $amount->multiply($multiplyBy);
+
+        $this->assertSame($resultAmount->amount(), $amount->amount() * $multiplyBy);
+    }
+
+    public function testAmountCannotBeLessThanZero(): void
+    {
+        $amountValueLessThanZero = $this->amountValueLessThanZero();
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Amount must be above zero.');
+        $this->expectExceptionMessage('Amount cannot be less than zero');
 
-        new Amount($amountLowerOrEqualZero);
+        Amount::create($amountValueLessThanZero);
+    }
+
+    public function testAmountZeroMethodCreatesAmountWithZeroValue(): void
+    {
+        $amount = Amount::zero();
+
+        $this->assertSame(0, $amount->amount());
     }
 
     public function testReturnsCorrectResponseWhenIsEqualToOtherAmount(): void
     {
         $amountValue = $this->amountValue();
-        $amount      = new Amount($amountValue);
-        $otherAmount = new Amount($amountValue);
+        $amount      = Amount::create($amountValue);
+        $otherAmount = Amount::create($amountValue);
 
         $this->assertSame(false, $amount->isLessThan($otherAmount));
         $this->assertSame(false, $amount->isGreaterThan($otherAmount));
@@ -34,10 +61,10 @@ class AmountTest extends TestCase
     public function testReturnsCorrectResponseWhenIsGreaterThanOtherAmount(): void
     {
         $amountValue = $this->amountValue();
-        $amount      = new Amount($amountValue);
+        $amount      = Amount::create($amountValue);
 
         $lessAmountValue = $this->amountValueLessThan($amountValue);
-        $lessAmount      = new Amount($lessAmountValue);
+        $lessAmount      = Amount::create($lessAmountValue);
 
         $this->assertSame(true, $amount->isGreaterThan($lessAmount));
     }
@@ -45,10 +72,10 @@ class AmountTest extends TestCase
     public function testReturnsCorrectResponseWhenIsLessThanOtherAmount(): void
     {
         $amountValue = $this->amountValue();
-        $amount      = new Amount($amountValue);
+        $amount      = Amount::create($amountValue);
 
         $greaterAmountValue = $this->amountValueGreaterThan($amountValue);
-        $greaterAmount      = new Amount($greaterAmountValue);
+        $greaterAmount      = Amount::create($greaterAmountValue);
 
         $this->assertSame(true, $amount->isLessThan($greaterAmount));
     }
@@ -57,7 +84,7 @@ class AmountTest extends TestCase
     {
         $amountValue = $this->amountValue();
 
-        $amount = new Amount($amountValue);
+        $amount = Amount::create($amountValue);
 
         $this->assertSame($amountValue, $amount->amount());
     }
