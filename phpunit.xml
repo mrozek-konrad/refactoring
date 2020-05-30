@@ -19,6 +19,9 @@
     <filter>
         <whitelist>
             <directory suffix=".php">module/</directory>
+            <exclude>
+                <directory suffix="Test.php">module/</directory>
+            </exclude>
         </whitelist>
     </filter>
 </phpunit>
