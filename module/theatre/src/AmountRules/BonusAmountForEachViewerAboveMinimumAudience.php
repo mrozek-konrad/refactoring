@@ -4,29 +4,25 @@ declare(strict_types=1);
 
 namespace Theatre\AmountRules;
 
-use InvalidArgumentException;
 use Theatre\Amount;
 use Theatre\AmountRule;
+use Theatre\Audience;
 
 class BonusAmountForEachViewerAboveMinimumAudience implements AmountRule
 {
-    private Amount $bonusAmount;
-    private int $minimumAudience;
+    private Amount   $bonusAmount;
+    private Audience $minimumAudience;
 
-    public function __construct(Amount $bonusAmount, int $minimumAudience)
+    public function __construct(Amount $bonusAmount, Audience $minimumAudience)
     {
-        if ($minimumAudience <= 0) {
-            throw new InvalidArgumentException('Minimum audience must be above zero.');
-        }
-
         $this->bonusAmount     = $bonusAmount;
         $this->minimumAudience = $minimumAudience;
     }
 
-    public function calculateAmount(int $audience): Amount
+    public function calculateAmount(Audience $audience): Amount
     {
-        $viewersAboveMinimumAudience = max($audience - $this->minimumAudience, 0);
+        $viewersAboveMinimumAudience = $audience->minus($this->minimumAudience);
 
-        return $this->bonusAmount->multiply($viewersAboveMinimumAudience);
+        return $this->bonusAmount->multiply($viewersAboveMinimumAudience->value());
     }
 }

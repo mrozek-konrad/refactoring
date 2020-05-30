@@ -6,6 +6,7 @@ namespace Theatre\AmountRules;
 
 use Theatre\Amount;
 use Theatre\AmountRule;
+use Theatre\Audience;
 
 class BaseAmountForPerformance implements AmountRule
 {
@@ -16,7 +17,7 @@ class BaseAmountForPerformance implements AmountRule
         $this->amountForPerformance = $amountForPerformance;
     }
 
-    public function calculateAmount(int $audience): Amount
+    public function calculateAmount(Audience $audience): Amount
     {
         return $this->amountForPerformance;
     }

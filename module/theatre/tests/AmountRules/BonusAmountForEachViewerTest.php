@@ -15,7 +15,7 @@ class BonusAmountForEachViewerTest extends TestCase
         $bonusAmountForEachViewer = $this->amount();
         $audience                 = $this->audience();
 
-        $expectedBonusAmount = $bonusAmountForEachViewer->multiply($audience);
+        $expectedBonusAmount = $bonusAmountForEachViewer->multiply($audience->value());
 
         $rule             = $this->buildBonusAmountForEachViewerRule($bonusAmountForEachViewer);
         $calculatedAmount = $rule->calculateAmount($audience);

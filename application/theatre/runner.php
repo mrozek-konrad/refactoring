@@ -4,6 +4,7 @@ require_once 'vendor/autoload.php';
 
 use Theatre\Amount;
 use Theatre\AmountRules;
+use Theatre\Audience;
 use Theatre\Customer;
 use Theatre\Invoice;
 use Theatre\Performance;
@@ -27,12 +28,12 @@ function statement(Invoice $invoice, Plays $plays, AmountRules $amountRulesForCo
         switch ($play->type()) {
             case "tragedy":
                 foreach ($amountRulesForTragedy as $amountRule) {
-                    $amount = $amount->add($amountRule->calculateAmount($performance->audience()));
+                    $amount = $amount->add($amountRule->calculateAmount(Audience::create($performance->audience())));
                 }
                 break;
             case "comedy":
                 foreach ($amountRulesForComedy as $amountRule) {
-                    $amount = $amount->add($amountRule->calculateAmount($performance->audience()));
+                    $amount = $amount->add($amountRule->calculateAmount(Audience::create($performance->audience())));
                 }
                 break;
             default:
@@ -67,15 +68,15 @@ foreach ($rawPlays as $id => $rawPlay) {
 $amountRulesForComedy = new AmountRules(
     ... [
             new AmountRules\BaseAmountForPerformance(Amount::create(30000)),
-            new AmountRules\BonusAmountForAudienceAboveThanMinimumAudience(Amount::create(10000), 20),
-            new AmountRules\BonusAmountForEachViewerAboveMinimumAudience(Amount::create(500), 20),
+            new AmountRules\BonusAmountForAudienceAboveThanMinimumAudience(Amount::create(10000), Audience::create(20)),
+            new AmountRules\BonusAmountForEachViewerAboveMinimumAudience(Amount::create(500), Audience::create(20)),
             new AmountRules\BonusAmountForEachViewer(Amount::create(300)),
     ]
 );
 $amountRulesForTragedy = new AmountRules(
     ... [
             new AmountRules\BaseAmountForPerformance(Amount::create(40000)),
-            new AmountRules\BonusAmountForEachViewerAboveMinimumAudience(Amount::create(1000), 30),
+            new AmountRules\BonusAmountForEachViewerAboveMinimumAudience(Amount::create(1000), Audience::create(30)),
     ]
 );
 

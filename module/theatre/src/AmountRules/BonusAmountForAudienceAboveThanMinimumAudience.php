@@ -7,27 +7,22 @@ namespace Theatre\AmountRules;
 use InvalidArgumentException;
 use Theatre\Amount;
 use Theatre\AmountRule;
+use Theatre\Audience;
 
 class BonusAmountForAudienceAboveThanMinimumAudience implements AmountRule
 {
     private Amount $bonusAmount;
-    private int $minimumAudience;
+    private Audience $minimumAudience;
 
-    public function __construct(Amount $bonusAmount, int $minimumAudience)
+    public function __construct(Amount $bonusAmount, Audience $minimumAudience)
     {
-        if ($minimumAudience <= 0) {
-            throw new InvalidArgumentException('Minimum audience must be above zero.');
-        }
-
         $this->bonusAmount     = $bonusAmount;
         $this->minimumAudience = $minimumAudience;
     }
 
-    public function calculateAmount(int $audience): Amount
+    public function calculateAmount(Audience $audience): Amount
     {
-        $audienceIsAboveThanMinimum = $audience > $this->minimumAudience;
-
-        if (!$audienceIsAboveThanMinimum) {
+        if ($audience->isLessThan($this->minimumAudience)) {
             return Amount::zero();
         }
 

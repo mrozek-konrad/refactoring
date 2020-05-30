@@ -18,8 +18,8 @@ class BonusAmountForEachViewerAboveMinimumAudienceTest extends TestCase
         $minimumAudience = $this->audience();
         $audience        = $this->audienceAboveThan($minimumAudience);
 
-        $audienceAboveMinimumAudience = $audience - $minimumAudience;
-        $expectedBonusAmount          = $bonusAmount->multiply($audienceAboveMinimumAudience);
+        $audienceAboveMinimumAudience = $audience->minus($minimumAudience);
+        $expectedBonusAmount          = $bonusAmount->multiply($audienceAboveMinimumAudience->value());
 
         $rule             = $this->buildBonusAmountForEachViewerAboveMinimumAudienceRule($bonusAmount, $minimumAudience);
         $calculatedAmount = $rule->calculateAmount($audience);
@@ -46,16 +46,5 @@ class BonusAmountForEachViewerAboveMinimumAudienceTest extends TestCase
         $rule = $this->buildBonusAmountForEachViewerAboveMinimumAudienceRule();
 
         $this->assertInstanceOf(AmountRule::class, $rule);
-    }
-
-    public function testMinimumAudienceMustBeAboveZero(): void
-    {
-        $bonusAmount                      = $this->amount();
-        $minimumAudienceLowerOrEqualsZero = $this->audienceLowerOrEqualsZero();
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Minimum audience must be above zero.');
-
-        $this->buildBonusAmountForEachViewerAboveMinimumAudienceRule($bonusAmount, $minimumAudienceLowerOrEqualsZero);
     }
 }

@@ -42,15 +42,4 @@ class BonusAmountForAudienceAboveMinimumAudienceTest extends TestCase
 
         $this->assertInstanceOf(AmountRule::class, $rule);
     }
-
-    public function testMinimumAudienceMustBeAboveZero(): void
-    {
-        $minimumAudience = $this->audienceLowerOrEqualsZero();
-        $amount          = $this->amount();
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Minimum audience must be above zero.');
-
-        $this->buildBonusAmountForAudienceAboveThanMinimumAudienceRule($amount, $minimumAudience);
-    }
 }

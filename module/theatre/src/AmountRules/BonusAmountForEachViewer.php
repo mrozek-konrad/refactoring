@@ -6,6 +6,7 @@ namespace Theatre\AmountRules;
 
 use Theatre\Amount;
 use Theatre\AmountRule;
+use Theatre\Audience;
 
 class BonusAmountForEachViewer implements AmountRule
 {
@@ -16,8 +17,8 @@ class BonusAmountForEachViewer implements AmountRule
         $this->bonusAmountForEachViewer = $bonusAmountForEachViewer;
     }
 
-    public function calculateAmount(int $audience): Amount
+    public function calculateAmount(Audience $audience): Amount
     {
-        return $this->bonusAmountForEachViewer->multiply($audience);
+        return $this->bonusAmountForEachViewer->multiply($audience->value());
     }
 }

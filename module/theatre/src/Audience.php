@@ -24,6 +24,16 @@ class Audience
         return new self($audience);
     }
 
+    public function isLessThan(Audience $minimumAudience): bool
+    {
+        return $this->audience < $minimumAudience->value();
+    }
+
+    public function minus(Audience $audience): Audience
+    {
+        return Audience::create(max($this->audience - $audience->value(), 0));
+    }
+
     public function value(): int
     {
         return $this->audience;
