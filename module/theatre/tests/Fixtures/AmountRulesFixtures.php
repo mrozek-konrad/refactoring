@@ -48,6 +48,26 @@ trait AmountRulesFixtures
         return new BaseAmountForPerformance($amountForPerformance ?? $this->amount());
     }
 
+    protected function amountValueLowerOrEqualZero(): int
+    {
+        return $this->randomInt(-100_000_000, 0);
+    }
+
+    protected function amountValue(): int
+    {
+        return $this->randomInt(1, 100_000_000);
+    }
+
+    protected function amountValueGreaterThan($amount): int
+    {
+        return $this->randomInt($amount, 100_000_000);
+    }
+
+    protected function amountValueLessThan($amount): int
+    {
+        return $this->randomInt(1, $amount);
+    }
+
     protected function buildBonusAmountForAudienceAboveThanMinimumAudienceRule(
         ?int $bonusAmountIfAudienceIsAboveMinimum = null,
         ?int $minimumAudience = null
