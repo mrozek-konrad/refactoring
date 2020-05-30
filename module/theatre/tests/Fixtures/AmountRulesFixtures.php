@@ -58,6 +58,25 @@ trait AmountRulesFixtures
         );
     }
 
+    protected function validAmountRulesParams(): array
+    {
+        $params = [];
+
+        for ($i = 0; $i < $this->randomInt(2, 4); $i++) {
+            $params[] = $this->buildBaseAmountForPerformanceRule();
+            $params[] = $this->buildBonusAmountForEachViewerRule();
+            $params[] = $this->buildBonusAmountForEachViewerAboveMinimumAudienceRule();
+            $params[] = $this->buildBonusAmountForAudienceAboveThanMinimumAudienceRule();
+        }
+
+        return $params;
+    }
+
+    protected function invalidAmountRulesParams(): array
+    {
+        return [$this->randomInt(PHP_INT_MIN, PHP_INT_MAX), $this->randomInt(PHP_INT_MIN, PHP_INT_MAX)];
+    }
+
     protected function buildBonusAmountForEachViewerAboveMinimumAudienceRule(
         ?int $bonusAmount = null,
         ?int $minimumAudience = null
