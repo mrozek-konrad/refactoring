@@ -14,7 +14,7 @@ class PerformanceTest extends TestCase
     public function testPerformancePlayIdCannotBeTooLong(): void
     {
         $playId   = $this->performancePlayIdTooLong();
-        $audience = $this->performanceAudience();
+        $audience = $this->audience();
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
@@ -27,37 +27,11 @@ class PerformanceTest extends TestCase
     public function testPerformancePlayIdCannotBeTooShort(): void
     {
         $playId   = $this->performancePlayIdTooShort();
-        $audience = $this->performanceAudience();
+        $audience = $this->audience();
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
             sprintf('Length of playId must be between %d-%d chars.', Performance::PLAY_ID_LENGTH_MINIMUM, Performance::PLAY_ID_LENGTH_MAXIMUM)
-        );
-
-        new Performance($playId, $audience);
-    }
-
-    public function testPerformanceAudienceCannotBeAboveMaximum(): void
-    {
-        $playId   = $this->performancePlayId();
-        $audience = $this->audienceAboveMaximum();
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            sprintf('Audience must be above %d and lower than %d', Performance::AUDIENCE_LENGTH_MINIMUM, Performance::AUDIENCE_LENGTH_MAXIMUM)
-        );
-
-        new Performance($playId, $audience);
-    }
-
-    public function testPerformanceAudienceCannotBeLowerThanMinimum(): void
-    {
-        $playId   = $this->performancePlayId();
-        $audience = $this->audienceLowerThanMinimum();
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            sprintf('Audience must be above %d and lower than %d', Performance::AUDIENCE_LENGTH_MINIMUM, Performance::AUDIENCE_LENGTH_MAXIMUM)
         );
 
         new Performance($playId, $audience);
@@ -78,7 +52,7 @@ class PerformanceTest extends TestCase
     public function testPerformanceReturnsValidPlayIdAndAudience(): void
     {
         $playId   = $this->performancePlayId();
-        $audience = $this->performanceAudience();
+        $audience = $this->audience();
 
         $performance = new Performance($playId, $audience);
 

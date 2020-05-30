@@ -9,18 +9,11 @@ use Theatre\Performance;
 use Theatre\Performances;
 use Theatre\Play;
 use Theatre\Plays;
+use Theatre\Tests\Fixtures\AmountRulesFixtures;
 
 trait Fixtures
 {
-    public function audienceAboveMaximum(): int
-    {
-        return $this->randomInt(Performance::AUDIENCE_LENGTH_MAXIMUM + 1, PHP_INT_MAX);
-    }
-
-    public function audienceLowerThanMinimum(): int
-    {
-        return $this->randomInt(PHP_INT_MIN, Performance::AUDIENCE_LENGTH_MINIMUM - 1);
-    }
+    use AmountRulesFixtures;
 
     public function customer(): Customer
     {
@@ -65,12 +58,7 @@ trait Fixtures
 
     public function performance(): Performance
     {
-        return new Performance($this->performancePlayId(), $this->performanceAudience());
-    }
-
-    public function performanceAudience(): int
-    {
-        return $this->randomInt(Performance::AUDIENCE_LENGTH_MINIMUM, Performance::AUDIENCE_LENGTH_MAXIMUM);
+        return new Performance($this->performancePlayId(), $this->audience());
     }
 
     public function performancePlayId(): string

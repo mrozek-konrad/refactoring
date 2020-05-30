@@ -8,15 +8,13 @@ use InvalidArgumentException;
 
 class Performance
 {
-    public const  PLAY_ID_LENGTH_MINIMUM  = 3;
-    public const  PLAY_ID_LENGTH_MAXIMUM  = 15;
-    public const  AUDIENCE_LENGTH_MINIMUM = 1;
-    public const  AUDIENCE_LENGTH_MAXIMUM = 501;
+    public const  PLAY_ID_LENGTH_MINIMUM = 3;
+    public const  PLAY_ID_LENGTH_MAXIMUM = 15;
 
-    private string $playId;
-    private int    $audience;
+    private string   $playId;
+    private Audience $audience;
 
-    public function __construct(string $playId, int $audience)
+    public function __construct(string $playId, Audience $audience)
     {
         $playIdLength = strlen($playId);
 
@@ -25,18 +23,11 @@ class Performance
                 sprintf('Length of playId must be between %d-%d chars.', self::PLAY_ID_LENGTH_MINIMUM, self::PLAY_ID_LENGTH_MAXIMUM)
             );
         }
-
-        if ($audience < self::AUDIENCE_LENGTH_MINIMUM || $audience > self::AUDIENCE_LENGTH_MAXIMUM) {
-            throw new InvalidArgumentException(
-                sprintf('Audience must be above %d and lower than %d', self::AUDIENCE_LENGTH_MINIMUM, self::AUDIENCE_LENGTH_MAXIMUM)
-            );
-        }
-
         $this->playId   = $playId;
         $this->audience = $audience;
     }
 
-    public function audience(): int
+    public function audience(): Audience
     {
         return $this->audience;
     }

@@ -28,25 +28,25 @@ function statement(Invoice $invoice, Plays $plays, AmountRules $amountRulesForCo
         switch ($play->type()) {
             case "tragedy":
                 foreach ($amountRulesForTragedy as $amountRule) {
-                    $amount = $amount->add($amountRule->calculateAmount(Audience::create($performance->audience())));
+                    $amount = $amount->add($amountRule->calculateAmount($performance->audience()));
                 }
                 break;
             case "comedy":
                 foreach ($amountRulesForComedy as $amountRule) {
-                    $amount = $amount->add($amountRule->calculateAmount(Audience::create($performance->audience())));
+                    $amount = $amount->add($amountRule->calculateAmount($performance->audience()));
                 }
                 break;
             default:
                 throw new Exception('Unknown audience type ' . $play->type());
         }
 
-        $volumeCredits += max($performance->audience() - 30, 0);
+        $volumeCredits += max($performance->audience()->value() - 30, 0);
 
         if ("comedy" === $play->type()) {
-            $volumeCredits += floor($performance->audience() / 5);
+            $volumeCredits += floor($performance->audience()->value() / 5);
         }
 
-        $result      .= ' ' . $play->name() . ': ' . number_format($amount->value() / 100) . ' (liczba miejsc:' . $performance->audience() . ')' . PHP_EOL;
+        $result      .= ' ' . $play->name() . ': ' . number_format($amount->value() / 100) . ' (liczba miejsc:' . $performance->audience()->value() . ')' . PHP_EOL;
         $totalAmount = $totalAmount->add($amount);
     }
 
@@ -84,7 +84,7 @@ foreach ($invoices as $invoice) {
     $performances = [];
 
     foreach ($invoice['performances'] as $performance) {
-        $performances[] = new Performance($performance['playId'], $performance['audience']);
+        $performances[] = new Performance($performance['playId'], Audience::create($performance['audience']));
     }
 
     $invoice = new Invoice(new Customer($invoice['customer']), new Performances(...$performances));
