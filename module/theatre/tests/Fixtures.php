@@ -47,7 +47,7 @@ trait Fixtures
         return [$this->randomInt(PHP_INT_MIN, PHP_INT_MAX), $this->randomInt(PHP_INT_MIN, PHP_INT_MAX)];
     }
 
-    public function invalidPlayParamsWithFewPlaysWithTheSameId(Id $id): array
+    public function invalidPlayParamsWithFewPlaysWithTheSameId(Play\Id $id): array
     {
         $params = [];
 
@@ -73,24 +73,24 @@ trait Fixtures
         return new Play($id ?? $this->playId(), $this->playName(), $this->playType());
     }
 
-    public function playId(): Id
+    public function playId(): Play\Id
     {
-        return Id::create($this->playIdValue());
+        return Play\Id::create($this->playIdValue());
     }
 
     public function playIdValueTooLong(): string
     {
-        return $this->randomStringTooLong(15);
+        return $this->randomStringTooLong(Play\Id::LENGTH_MAXIMUM);
     }
 
     public function playIdValueTooShort(): string
     {
-        return $this->randomStringTooShort(3);
+        return $this->randomStringTooShort(Play\Id::LENGTH_MINIMUM);
     }
 
     public function playIdValue(): string
     {
-        return $this->randomString($this->randomInt(3, 15));
+        return $this->randomString($this->randomInt(Play\Id::LENGTH_MINIMUM, Play\Id::LENGTH_MAXIMUM));
     }
 
     public function typeValueTooLong(): string

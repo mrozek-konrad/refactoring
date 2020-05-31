@@ -8,14 +8,17 @@ use InvalidArgumentException;
 
 class Id
 {
+    public const LENGTH_MINIMUM = 5;
+    public const LENGTH_MAXIMUM = 25;
+
     private string $id;
 
     public function __construct(string $id)
     {
         $lengthPlayId = strlen($id);
 
-        if ($lengthPlayId < 3 || $lengthPlayId > 15) {
-            throw new InvalidArgumentException(sprintf('Length of id must be between %d-%d chars.', 3, 15));
+        if ($lengthPlayId < self::LENGTH_MINIMUM || $lengthPlayId > self::LENGTH_MAXIMUM) {
+            throw new InvalidArgumentException(sprintf('Length of id must be between %d-%d chars.', self::LENGTH_MINIMUM, self::LENGTH_MAXIMUM));
         }
 
         $this->id = $id;

@@ -41,7 +41,7 @@ class IdTest extends TestCase
         $tooLongPlayId = $this->playIdValueTooLong();
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(sprintf('Length of id must be between %d-%d chars', 3, 15));
+        $this->expectExceptionMessage(sprintf('Length of id must be between %d-%d chars', Id::LENGTH_MINIMUM, Id::LENGTH_MAXIMUM));
 
         Id::create($tooLongPlayId);
     }
@@ -51,7 +51,7 @@ class IdTest extends TestCase
         $tooShortPlayId = $this->playIdValueTooShort();
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(sprintf('Length of id must be between %d-%d chars', 3, 15));
+        $this->expectExceptionMessage(sprintf('Length of id must be between %d-%d chars', Id::LENGTH_MINIMUM, Id::LENGTH_MAXIMUM));
 
         Id::create($tooShortPlayId);
     }
