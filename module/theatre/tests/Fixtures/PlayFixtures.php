@@ -48,19 +48,9 @@ trait PlayFixtures
         return $this->textShorterThan(Play\Id::LENGTH_MINIMUM);
     }
 
-    final protected function playName(): string
+    final protected function playName(): Play\Name
     {
-        return $this->text($this->value(Play::NAME_LENGTH_MINIMUM, Play::NAME_LENGTH_MAXIMUM));
-    }
-
-    final protected function playNameTooLong(): string
-    {
-        return $this->textLongerThan(Play::NAME_LENGTH_MAXIMUM);
-    }
-
-    final protected function playNameTooShort(): string
-    {
-        return $this->textShorterThan(Play::NAME_LENGTH_MINIMUM);
+        return Play\Name::create($this->nameValue());
     }
 
     final protected function playType(): PlayType
