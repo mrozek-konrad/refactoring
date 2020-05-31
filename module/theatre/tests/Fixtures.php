@@ -9,6 +9,7 @@ use Theatre\Performance;
 use Theatre\Performances;
 use Theatre\Play;
 use Theatre\Play\Id;
+use Theatre\Play\Type as PlayType;
 use Theatre\Plays;
 use Theatre\Tests\Fixtures\AmountRulesFixtures;
 
@@ -77,11 +78,6 @@ trait Fixtures
         return Id::create($this->playIdValue());
     }
 
-    public function playIdTooLong(): string
-    {
-        return $this->randomStringTooLong(Play::ID_LENGTH_MAXIMUM);
-    }
-
     public function playIdValueTooLong(): string
     {
         return $this->randomStringTooLong(15);
@@ -127,9 +123,13 @@ trait Fixtures
         return $this->randomStringTooShort(Play::NAME_LENGTH_MINIMUM);
     }
 
-    public function playType(): string
+    public function playType(): PlayType
     {
-        return $this->randomString($this->randomInt(Play::TYPE_LENGTH_MINIMUM, Play::TYPE_LENGTH_MAXIMUM));
+        return PlayType::create(
+            $this->randomString(
+                $this->randomInt(PlayType::LENGTH_MINIMUM, PlayType::LENGTH_MAXIMUM)
+            )
+        );
     }
 
     public function plays(array $plays = []): Plays

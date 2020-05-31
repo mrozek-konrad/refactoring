@@ -44,38 +44,10 @@ class PlayTest extends TestCase
         $name = $this->playName();
         $type = $this->playType();
 
-        $play = Play::create($id, $name, $type);;
+        $play = Play::create($id, $name, $type);
 
         $this->assertSame($id, $play->id());
         $this->assertSame($name, $play->name());
         $this->assertSame($type, $play->type());
-    }
-
-    public function testPlayTypeCannotBeTooLong(): void
-    {
-        $id   = $this->playId();
-        $name = $this->playName();
-        $type = $this->playTypeTooLong();
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            sprintf('Length of %s must be between %d-%d chars.', Play::PARAM_TYPE, Play::TYPE_LENGTH_MINIMUM, Play::TYPE_LENGTH_MAXIMUM)
-        );
-
-        Play::create($id, $name, $type);;
-    }
-
-    public function testPlayTypeCannotBeTooShort(): void
-    {
-        $id   = $this->playId();
-        $name = $this->playName();
-        $type = $this->playTypeTooShort();
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            sprintf('Length of %s must be between %d-%d chars.', Play::PARAM_TYPE, Play::TYPE_LENGTH_MINIMUM, Play::TYPE_LENGTH_MAXIMUM)
-        );
-
-        Play::create($id, $name, $type);;
     }
 }
