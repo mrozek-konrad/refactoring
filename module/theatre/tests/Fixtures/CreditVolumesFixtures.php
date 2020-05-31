@@ -25,11 +25,6 @@ trait CreditVolumesFixtures
         return $this->valueGreaterThan($credit);
     }
 
-    final protected function creditVolumesValueLessThan($credit): int
-    {
-        return $this->valueLowerThan($credit, $this->zero());
-    }
-
     final protected function creditVolumesValueLessThanZero(): int
     {
         return $this->valueLowerThan($this->zero());

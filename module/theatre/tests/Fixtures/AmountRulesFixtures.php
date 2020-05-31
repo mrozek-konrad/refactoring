@@ -6,7 +6,6 @@ namespace Theatre\Tests\Fixtures;
 
 use Theatre\Amount;
 use Theatre\AmountRule;
-use Theatre\AmountRules;
 use Theatre\AmountRules\BaseAmountForPerformance;
 use Theatre\AmountRules\BonusAmountForAudienceAboveThanMinimumAudience;
 use Theatre\AmountRules\BonusAmountForEachViewer;
