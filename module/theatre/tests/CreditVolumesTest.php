@@ -3,17 +3,17 @@
 namespace Theatre\Tests;
 
 use InvalidArgumentException;
-use Theatre\Credit;
-use Theatre\Tests\Fixtures\CreditFixtures;
+use Theatre\CreditVolumes;
+use Theatre\Tests\Fixtures\CreditVolumesFixtures;
 
-class CreditTest extends TheatreTestCase
+class CreditVolumesTest extends TheatreTestCase
 {
-    use CreditFixtures;
+    use CreditVolumesFixtures;
 
     public function testCreditCanBeAddedToOtherCredit(): void
     {
-        $firstCreditValue  = $this->credit();
-        $secondCreditValue = $this->credit();
+        $firstCreditValue  = $this->creditVolumes();
+        $secondCreditValue = $this->creditVolumes();
 
         $resultCredit = $firstCreditValue->add($secondCreditValue);
 
@@ -22,26 +22,26 @@ class CreditTest extends TheatreTestCase
 
     public function testCreditCannotBeLessThanZero(): void
     {
-        $creditValueLessThanZero = $this->creditValueLessThanZero();
+        $creditValueLessThanZero = $this->creditVolumesValueLessThanZero();
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Credit cannot be less than zero');
 
-        Credit::create($creditValueLessThanZero);
+        CreditVolumes::create($creditValueLessThanZero);
     }
 
     public function testCreditZeroMethodCreatesCreditWithZeroValue(): void
     {
-        $credit = Credit::zero();
+        $credit = CreditVolumes::zero();
 
         $this->assertSame(0, $credit->value());
     }
 
     public function testReturnsValidCreditValue(): void
     {
-        $creditValue = $this->creditValue();
+        $creditValue = $this->creditVolumesValue();
 
-        $credit = Credit::create($creditValue);
+        $credit = CreditVolumes::create($creditValue);
 
         $this->assertSame($creditValue, $credit->value());
     }
