@@ -3,12 +3,12 @@
 namespace Theatre\Tests;
 
 use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 use Theatre\Play;
+use Theatre\Tests\Fixtures\PlayFixtures;
 
-class PlayTest extends TestCase
+class PlayTest extends TheatreTestCase
 {
-    use Fixtures;
+    use PlayFixtures;
 
     public function testPlayNameCannotBeTooLong(): void
     {

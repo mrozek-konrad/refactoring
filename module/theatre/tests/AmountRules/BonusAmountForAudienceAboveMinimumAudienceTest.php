@@ -2,13 +2,12 @@
 
 namespace Theatre\Tests\AmountRules;
 
-use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 use Theatre\Amount;
 use Theatre\AmountRule;
 use Theatre\Tests\Fixtures\AmountRulesFixtures;
+use Theatre\Tests\TheatreTestCase;
 
-class BonusAmountForAudienceAboveMinimumAudienceTest extends TestCase
+class BonusAmountForAudienceAboveMinimumAudienceTest extends TheatreTestCase
 {
     use AmountRulesFixtures;
 

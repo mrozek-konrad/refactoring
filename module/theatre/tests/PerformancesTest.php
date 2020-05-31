@@ -2,23 +2,14 @@
 
 namespace Theatre\Tests;
 
-use PHPUnit\Framework\TestCase;
 use Theatre\Performance;
 use Theatre\Performances;
+use Theatre\Tests\Fixtures\PerformanceFixtures;
 use TypeError;
 
-class PerformancesTest extends TestCase
+class PerformancesTest extends TheatreTestCase
 {
-    use Fixtures;
-
-    public function testPerformancesCollectionCannotBeCreatedUsingObjectsOfTypeDifferentThanPerformance(): void
-    {
-        $invalidParams = $this->invalidPerformanceParams();
-
-        $this->expectException(TypeError::class);
-
-        new Performances(...$invalidParams);
-    }
+    use PerformanceFixtures;
 
     public function testPerformancesCollectionCanBeCreatedOnlyUsingObjectsOfPerformanceType(): void
     {
@@ -29,5 +20,14 @@ class PerformancesTest extends TestCase
         $this->assertSame($validParams, $performances->getArrayCopy());
         $this->assertSame(reset($validParams), $performances->current());
         $this->assertInstanceOf(Performance::class, $performances->current());
+    }
+
+    public function testPerformancesCollectionCannotBeCreatedUsingObjectsOfTypeDifferentThanPerformance(): void
+    {
+        $invalidParams = $this->invalidPerformancesParams();
+
+        $this->expectException(TypeError::class);
+
+        new Performances(...$invalidParams);
     }
 }

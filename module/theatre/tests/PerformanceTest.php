@@ -2,26 +2,12 @@
 
 namespace Theatre\Tests;
 
-use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
-use Theatre\Customer;
 use Theatre\Performance;
+use Theatre\Tests\Fixtures\PerformanceFixtures;
 
-class PerformanceTest extends TestCase
+class PerformanceTest extends TheatreTestCase
 {
-    use Fixtures;
-
-    public function testCustomerNameCannotBeTooShort(): void
-    {
-        $name = $this->customerNameTooShort();
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            sprintf('Length of name must be between %d-%d chars.', Customer::NAME_LENGTH_MINIMUM, Customer::NAME_LENGTH_MAXIMUM)
-        );
-
-        new Customer($name);
-    }
+    use PerformanceFixtures;
 
     public function testPerformanceReturnsValidPlayIdAndAudience(): void
     {

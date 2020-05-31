@@ -3,13 +3,13 @@
 namespace Theatre\Tests\Play;
 
 use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 use Theatre\Play\Id;
-use Theatre\Tests\Fixtures;
+use Theatre\Tests\Fixtures\PlayFixtures;
+use Theatre\Tests\TheatreTestCase;
 
-class IdTest extends TestCase
+class IdTest extends TheatreTestCase
 {
-    use Fixtures;
+    use PlayFixtures;
 
     public function testCreatedPlayIdCanBeComparedWithOtherPlayId(): void
     {

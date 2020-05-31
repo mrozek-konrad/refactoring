@@ -3,13 +3,13 @@
 namespace Theatre\Tests\Play;
 
 use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 use Theatre\Play\Type;
 use Theatre\Tests\Fixtures;
+use Theatre\Tests\TheatreTestCase;
 
-class TypeTest extends TestCase
+class TypeTest extends TheatreTestCase
 {
-    use Fixtures;
+    use Fixtures\PlayFixtures;
 
     public function testCreatedTypeContainsCorrectType(): void
     {

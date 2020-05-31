@@ -4,12 +4,11 @@ namespace Theatre\Tests;
 
 use InvalidArgumentException;
 use Theatre\Audience;
-use PHPUnit\Framework\TestCase;
-use Theatre\Tests\Fixtures\AmountRulesFixtures;
+use Theatre\Tests\Fixtures\AudienceFixtures;
 
-class AudienceTest extends TestCase
+class AudienceTest extends TheatreTestCase
 {
-    use AmountRulesFixtures;
+    use AudienceFixtures;
 
     public function testAmountCannotBeLessThanZero(): void
     {

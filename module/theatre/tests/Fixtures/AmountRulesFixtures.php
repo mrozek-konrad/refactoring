@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Theatre\Tests\Fixtures;
 
 use Theatre\Amount;
+use Theatre\AmountRule;
 use Theatre\AmountRules\BaseAmountForPerformance;
 use Theatre\AmountRules\BonusAmountForAudienceAboveThanMinimumAudience;
 use Theatre\AmountRules\BonusAmountForEachViewer;
@@ -13,64 +14,29 @@ use Theatre\Audience;
 
 trait AmountRulesFixtures
 {
-    use RandomScalarValuesFixtures;
+    use AudienceFixtures;
+    use AmountFixtures;
 
-    protected function amount(): Amount
+    final protected function amountRule(): AmountRule
     {
-        return Amount::create($this->randomInt(1, 100_000_000));
+        switch ($this->value(1, 4)) {
+            case 1:
+                return $this->buildBaseAmountForPerformanceRule();
+            case 2:
+                return $this->buildBonusAmountForEachViewerRule();
+            case 3:
+                return $this->buildBonusAmountForEachViewerAboveMinimumAudienceRule();
+            default:
+                return $this->buildBonusAmountForAudienceAboveThanMinimumAudienceRule();
+        }
     }
 
-    protected function amountValue(): int
-    {
-        return $this->randomInt(1, 100_000_000);
-    }
-
-    protected function amountValueGreaterThan($amount): int
-    {
-        return $this->randomInt($amount, 100_000_000);
-    }
-
-    protected function amountValueLessThan($amount): int
-    {
-        return $this->randomInt(1, $amount);
-    }
-
-    protected function amountValueLessThanZero(): int
-    {
-        return $this->randomInt(-100_000_000, -1);
-    }
-
-    protected function audience(): Audience
-    {
-        return Audience::create($this->randomInt(1, 100_000));
-    }
-
-    protected function audienceAboveThan(Audience $audience): Audience
-    {
-        return Audience::create($this->randomInt($audience->value(), 100_000_000));
-    }
-
-    protected function audienceLowerThan(Audience $audience): Audience
-    {
-        return Audience::create($this->randomInt(1, $audience->value() - 1));
-    }
-
-    protected function audienceValue(): int
-    {
-        return $this->randomInt(1, 100_000);
-    }
-
-    protected function audienceValueLowerOrEqualsZero(): int
-    {
-        return $this->randomInt(-100_000_000, 0);
-    }
-
-    protected function buildBaseAmountForPerformanceRule(?Amount $amountForPerformance = null): BaseAmountForPerformance
+    final protected function buildBaseAmountForPerformanceRule(?Amount $amountForPerformance = null): BaseAmountForPerformance
     {
         return new BaseAmountForPerformance($amountForPerformance ?? $this->amount());
     }
 
-    protected function buildBonusAmountForAudienceAboveThanMinimumAudienceRule(
+    final protected function buildBonusAmountForAudienceAboveThanMinimumAudienceRule(
         ?Amount $bonusAmountIfAudienceIsAboveMinimum = null,
         ?Audience $minimumAudience = null
     ): BonusAmountForAudienceAboveThanMinimumAudience {
@@ -80,7 +46,7 @@ trait AmountRulesFixtures
         );
     }
 
-    protected function buildBonusAmountForEachViewerAboveMinimumAudienceRule(
+    final protected function buildBonusAmountForEachViewerAboveMinimumAudienceRule(
         ?Amount $bonusAmount = null,
         ?Audience $minimumAudience = null
     ): BonusAmountForEachViewerAboveMinimumAudience {
@@ -90,32 +56,18 @@ trait AmountRulesFixtures
         );
     }
 
-    protected function buildBonusAmountForEachViewerRule(?Amount $bonusAmountForEachViewer = null): BonusAmountForEachViewer
+    final protected function buildBonusAmountForEachViewerRule(?Amount $bonusAmountForEachViewer = null): BonusAmountForEachViewer
     {
         return new BonusAmountForEachViewer($bonusAmountForEachViewer ?? $this->amount());
     }
 
-    protected function invalidAmountRulesParams(): array
+    final protected function invalidAmountRulesParams(): array
     {
-        return [$this->randomInt(PHP_INT_MIN, PHP_INT_MAX), $this->randomInt(PHP_INT_MIN, PHP_INT_MAX)];
+        return $this->arrayOf(fn() => $this->mediumValue());
     }
 
-    protected function smallValue(): int
+    final protected function validAmountRulesParams(): array
     {
-        return $this->randomInt(1, 100);
-    }
-
-    protected function validAmountRulesParams(): array
-    {
-        $params = [];
-
-        for ($i = 0; $i < $this->randomInt(2, 4); $i++) {
-            $params[] = $this->buildBaseAmountForPerformanceRule();
-            $params[] = $this->buildBonusAmountForEachViewerRule();
-            $params[] = $this->buildBonusAmountForEachViewerAboveMinimumAudienceRule();
-            $params[] = $this->buildBonusAmountForAudienceAboveThanMinimumAudienceRule();
-        }
-
-        return $params;
+        return $this->arrayOf(fn() => $this->amountRule());
     }
 }

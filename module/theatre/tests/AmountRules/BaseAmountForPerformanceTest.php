@@ -2,11 +2,11 @@
 
 namespace Theatre\Tests\AmountRules;
 
-use PHPUnit\Framework\TestCase;
 use Theatre\AmountRule;
 use Theatre\Tests\Fixtures\AmountRulesFixtures;
+use Theatre\Tests\TheatreTestCase;
 
-class BaseAmountForPerformanceTest extends TestCase
+class BaseAmountForPerformanceTest extends TheatreTestCase
 {
     use AmountRulesFixtures;
 

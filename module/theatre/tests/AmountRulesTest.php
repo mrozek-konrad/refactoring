@@ -4,22 +4,12 @@ namespace Theatre\Tests;
 
 use Theatre\AmountRule;
 use Theatre\AmountRules;
-use PHPUnit\Framework\TestCase;
 use Theatre\Tests\Fixtures\AmountRulesFixtures;
 use TypeError;
 
-class AmountRulesTest extends TestCase
+class AmountRulesTest extends TheatreTestCase
 {
     use AmountRulesFixtures;
-
-    public function testPerformancesCollectionCannotBeCreatedUsingObjectsOfTypeDifferentThanPerformance(): void
-    {
-        $invalidParams = $this->invalidAmountRulesParams();
-
-        $this->expectException(TypeError::class);
-
-        new AmountRules(...$invalidParams);
-    }
 
     public function testPerformancesCollectionCanBeCreatedOnlyUsingObjectsOfPerformanceType(): void
     {
@@ -30,5 +20,14 @@ class AmountRulesTest extends TestCase
         $this->assertSame($validParams, $amountRules->getArrayCopy());
         $this->assertSame(reset($validParams), $amountRules->current());
         $this->assertInstanceOf(AmountRule::class, $amountRules->current());
+    }
+
+    public function testPerformancesCollectionCannotBeCreatedUsingObjectsOfTypeDifferentThanPerformance(): void
+    {
+        $invalidParams = $this->invalidAmountRulesParams();
+
+        $this->expectException(TypeError::class);
+
+        new AmountRules(...$invalidParams);
     }
 }

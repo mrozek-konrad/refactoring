@@ -3,16 +3,16 @@
 namespace Theatre\Tests;
 
 use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 use Theatre\Customer;
+use Theatre\Tests\Fixtures\CustomerFixtures;
 
-class CustomerTest extends TestCase
+class CustomerTest extends TheatreTestCase
 {
-    use Fixtures;
+    use CustomerFixtures;
 
-    public function testCustomerNameCannotBeTooShort(): void
+    public function testCustomerNameCannotBeTooLong(): void
     {
-        $name = $this->customerNameTooShort();
+        $name = $this->customerNameTooLong();
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
@@ -22,9 +22,9 @@ class CustomerTest extends TestCase
         new Customer($name);
     }
 
-    public function testCustomerNameCannotBeTooLong(): void
+    public function testCustomerNameCannotBeTooShort(): void
     {
-        $name = $this->customerNameTooLong();
+        $name = $this->customerNameTooShort();
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(

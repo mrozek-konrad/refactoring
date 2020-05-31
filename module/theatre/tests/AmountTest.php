@@ -3,13 +3,12 @@
 namespace Theatre\Tests;
 
 use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 use Theatre\Amount;
-use Theatre\Tests\Fixtures\AmountRulesFixtures;
+use Theatre\Tests\Fixtures\AmountFixtures;
 
-class AmountTest extends TestCase
+class AmountTest extends TheatreTestCase
 {
-    use AmountRulesFixtures;
+    use AmountFixtures;
 
     public function testAmountCanBeAddedToOtherAmount(): void
     {
@@ -24,7 +23,7 @@ class AmountTest extends TestCase
     public function testAmountCanBeMultipliedBySomeValue(): void
     {
         $amount     = $this->amount();
-        $multiplyBy = $this->smallValue();
+        $multiplyBy = $this->tinyValue();
 
         $resultAmount = $amount->multiply($multiplyBy);
 

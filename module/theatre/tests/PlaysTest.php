@@ -2,15 +2,15 @@
 
 namespace Theatre\Tests;
 
-use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Theatre\Play;
 use Theatre\Plays;
+use Theatre\Tests\Fixtures\PlayFixtures;
 use TypeError;
 
-class PlaysTest extends TestCase
+class PlaysTest extends TheatreTestCase
 {
-    use Fixtures;
+    use PlayFixtures;
 
     public function testAllowToFindPlayWithSpecifiedId(): void
     {
@@ -36,7 +36,7 @@ class PlaysTest extends TestCase
 
     public function testPlaysCollectionCanBeCreatedOnlyUsingObjectsOfPlayType(): void
     {
-        $validParams = $this->validPlayParams();
+        $validParams = $this->validPlaysParams();
 
         $plays = new Plays(...$validParams);
 
@@ -47,7 +47,7 @@ class PlaysTest extends TestCase
 
     public function testPlaysCollectionCannotBeCreatedUsingObjectsOfTypeDifferentThanPlay(): void
     {
-        $invalidParams = $this->invalidPlayParams();
+        $invalidParams = $this->invalidPlaysParams();
 
         $this->expectException(TypeError::class);
 
@@ -56,7 +56,7 @@ class PlaysTest extends TestCase
 
     public function testThrowsErrorWhenYouFindingPlayWhichDoesNotExistInPlays(): void
     {
-        $plays  = $this->plays([$this->play(), $this->play()]);
+        $plays      = $this->plays([$this->play(), $this->play()]);
         $somePlayId = $this->playId();
 
         $this->expectException(RuntimeException::class);

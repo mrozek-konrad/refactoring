@@ -2,12 +2,14 @@
 
 namespace Theatre\Tests;
 
-use PHPUnit\Framework\TestCase;
 use Theatre\Invoice;
+use Theatre\Tests\Fixtures\CustomerFixtures;
+use Theatre\Tests\Fixtures\PerformanceFixtures;
 
-class InvoiceTest extends TestCase
+class InvoiceTest extends TheatreTestCase
 {
-    use Fixtures;
+    use CustomerFixtures;
+    use PerformanceFixtures;
 
     public function testInvoiceCanBeBuildCorrectly(): void
     {
