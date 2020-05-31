@@ -97,6 +97,21 @@ trait Fixtures
         return $this->randomString($this->randomInt(3, 15));
     }
 
+    public function typeValueTooLong(): string
+    {
+        return $this->randomStringTooLong(Play\Type::LENGTH_MAXIMUM);
+    }
+
+    public function typeValueTooShort(): string
+    {
+        return $this->randomStringTooShort(Play\Type::LENGTH_MINIMUM);
+    }
+
+    public function typeValue(): string
+    {
+        return $this->randomString($this->randomInt(Play\Type::LENGTH_MINIMUM, Play\Type::LENGTH_MAXIMUM));
+    }
+
     public function playName(): string
     {
         return $this->randomString($this->randomInt(Play::NAME_LENGTH_MINIMUM, Play::NAME_LENGTH_MAXIMUM));
@@ -115,16 +130,6 @@ trait Fixtures
     public function playType(): string
     {
         return $this->randomString($this->randomInt(Play::TYPE_LENGTH_MINIMUM, Play::TYPE_LENGTH_MAXIMUM));
-    }
-
-    public function playTypeTooLong(): string
-    {
-        return $this->randomStringTooLong(Play::TYPE_LENGTH_MAXIMUM);
-    }
-
-    public function playTypeTooShort(): string
-    {
-        return $this->randomStringTooShort(Play::TYPE_LENGTH_MINIMUM);
     }
 
     public function plays(array $plays = []): Plays
