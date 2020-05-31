@@ -60,7 +60,7 @@ trait Fixtures
 
     public function performance(): Performance
     {
-        return new Performance($this->playId(), $this->audience());
+        return new Performance($this->play(), $this->audience());
     }
 
     public function performances(): Performances

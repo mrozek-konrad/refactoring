@@ -25,12 +25,12 @@ class PerformanceTest extends TestCase
 
     public function testPerformanceReturnsValidPlayIdAndAudience(): void
     {
-        $playId   = $this->playId();
+        $play     = $this->play();
         $audience = $this->audience();
 
-        $performance = new Performance($playId, $audience);
+        $performance = new Performance($play, $audience);
 
-        $this->assertSame($playId, $performance->playId());
+        $this->assertSame($play, $performance->play());
         $this->assertSame($audience, $performance->audience());
     }
 }

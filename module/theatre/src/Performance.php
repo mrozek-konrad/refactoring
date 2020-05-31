@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace Theatre;
 
-use Theatre\Play\Id;
-
 class Performance
 {
-    private Id   $playId;
+    private Play     $play;
     private Audience $audience;
 
-    public function __construct(Id $playId, Audience $audience)
+    public function __construct(Play $play, Audience $audience)
     {
-        $this->playId   = $playId;
         $this->audience = $audience;
+        $this->play     = $play;
     }
 
     public function audience(): Audience
@@ -22,8 +20,8 @@ class Performance
         return $this->audience;
     }
 
-    public function playId(): Id
+    public function play(): Play
     {
-        return $this->playId;
+        return $this->play;
     }
 }
