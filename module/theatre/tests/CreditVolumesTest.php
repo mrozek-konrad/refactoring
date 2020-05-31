@@ -25,7 +25,7 @@ class CreditVolumesTest extends TheatreTestCase
         $creditValueLessThanZero = $this->creditVolumesValueLessThanZero();
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Credit cannot be less than zero');
+        $this->expectExceptionMessage('Credit volumes cannot be less than zero');
 
         CreditVolumes::create($creditValueLessThanZero);
     }
