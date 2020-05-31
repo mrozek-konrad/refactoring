@@ -13,6 +13,7 @@ trait AmountCalculatorFixtures
 {
     use RandomScalarValuesFixtures;
     use PerformanceFixtures;
+    use AmountFixtures;
 
     final public function amountCalculator(): AmountCalculator
     {
