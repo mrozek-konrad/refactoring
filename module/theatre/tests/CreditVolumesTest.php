@@ -10,7 +10,24 @@ class CreditVolumesTest extends TheatreTestCase
 {
     use CreditVolumesFixtures;
 
-    public function testCreditCanBeAddedToOtherCredit(): void
+    public function testCreditVolumesCanBeAddedToOtherCreditVolumes(): void
+    {
+        $someCreditVolumesValue  = $this->creditVolumesValue();
+        $otherCreditVolumesValue = $this->creditVolumesValueGreaterThan($someCreditVolumesValue);
+
+        $firstCreditValues  = $this->creditVolumes($someCreditVolumesValue);
+        $secondCreditValues = $this->creditVolumes($someCreditVolumesValue);
+
+        $creditVolumesWithDifferentValue = $this->creditVolumes($otherCreditVolumesValue);
+
+        $this->assertTrue($firstCreditValues->areEquals($secondCreditValues));
+        $this->assertTrue($secondCreditValues->areEquals($firstCreditValues));
+
+        $this->assertFalse($firstCreditValues->areEquals($creditVolumesWithDifferentValue));
+        $this->assertFalse($secondCreditValues->areEquals($creditVolumesWithDifferentValue));
+    }
+
+    public function testCreditVolumesCanBeComparedToOtherCreditVolumes(): void
     {
         $firstCreditValue  = $this->creditVolumes();
         $secondCreditValue = $this->creditVolumes();
@@ -20,7 +37,7 @@ class CreditVolumesTest extends TheatreTestCase
         $this->assertSame($resultCredit->value(), $firstCreditValue->value() + $secondCreditValue->value());
     }
 
-    public function testCreditCannotBeLessThanZero(): void
+    public function testCreditVolumesCannotBeLessThanZero(): void
     {
         $creditValueLessThanZero = $this->creditVolumesValueLessThanZero();
 
@@ -30,7 +47,7 @@ class CreditVolumesTest extends TheatreTestCase
         CreditVolumes::create($creditValueLessThanZero);
     }
 
-    public function testCreditZeroMethodCreatesCreditWithZeroValue(): void
+    public function testCreditVolumesZeroMethodCreatesCreditVolumesWithZeroValue(): void
     {
         $credit = CreditVolumes::zero();
 

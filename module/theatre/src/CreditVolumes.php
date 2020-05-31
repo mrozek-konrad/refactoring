@@ -34,6 +34,11 @@ class CreditVolumes
         return new self($this->creditVolumes + $creditVolumesToAdd->value());
     }
 
+    public function areEquals(CreditVolumes $calculatedAmount)
+    {
+        return $this->creditVolumes === $calculatedAmount->creditVolumes;
+    }
+
     public function multiply(int $value): CreditVolumes
     {
         return new self($this->creditVolumes * $value);

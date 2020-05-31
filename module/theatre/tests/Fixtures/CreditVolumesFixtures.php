@@ -10,9 +10,9 @@ trait CreditVolumesFixtures
 {
     use RandomScalarValuesFixtures;
 
-    final protected function creditVolumes(): CreditVolumes
+    final protected function creditVolumes(?int $value = null): CreditVolumes
     {
-        return CreditVolumes::create($this->creditVolumesValue());
+        return CreditVolumes::create($value ?? $this->creditVolumesValue());
     }
 
     final protected function creditVolumesValue(): int
