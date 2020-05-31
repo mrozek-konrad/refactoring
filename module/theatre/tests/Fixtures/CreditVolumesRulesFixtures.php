@@ -7,6 +7,7 @@ namespace Theatre\Tests\Fixtures;
 use Theatre\Audience;
 use Theatre\CreditVolumes;
 use Theatre\CreditVolumesRules\BonusCreditsForEachViewerAboveMinimumAudience;
+use Theatre\CreditVolumesRules\BonusCreditVolumesForEachSpecifiedNumberOfViewers;
 
 trait CreditVolumesRulesFixtures
 {
@@ -20,6 +21,16 @@ trait CreditVolumesRulesFixtures
         return new BonusCreditsForEachViewerAboveMinimumAudience(
             $creditVolumesForEachViewer ?? $this->creditVolumes(),
             $minimumAudience ?? $this->audience()
+        );
+    }
+
+    final protected function buildBonusCreditVolumesForEachSpecifiedNumberOfViewersRule(
+        ?CreditVolumes $creditVolumesForEachPartOfAudience= null,
+        ?Audience $partOfAudienceWhichWillBePrized = null
+    ): BonusCreditVolumesForEachSpecifiedNumberOfViewers {
+        return new BonusCreditVolumesForEachSpecifiedNumberOfViewers(
+            $creditVolumesForEachPartOfAudience ?? $this->creditVolumes(),
+            $partOfAudienceWhichWillBePrized ?? $this->audience()
         );
     }
 }
