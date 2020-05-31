@@ -12,7 +12,7 @@ trait AudienceFixtures
 
     final protected function audience(): Audience
     {
-        return Audience::create($this->tinyValue());
+        return Audience::create($this->smallValue());
     }
 
     final protected function audienceAboveThan(Audience $audience): Audience
