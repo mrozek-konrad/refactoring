@@ -83,6 +83,21 @@ trait PlayFixtures
         return new Plays(...$params);
     }
 
+    final protected function nameValue(): string
+    {
+        return $this->text($this->value(Play\Name::LENGTH_MINIMUM, Play\Name::LENGTH_MAXIMUM));
+    }
+
+    final protected function nameValueTooLong(): string
+    {
+        return $this->textLongerThan(Play\Name::LENGTH_MAXIMUM);
+    }
+
+    final protected function nameValueTooShort(): string
+    {
+        return $this->textShorterThan(Play\Name::LENGTH_MINIMUM);
+    }
+
     final protected function typeValue(): string
     {
         return $this->text($this->value(Play\Type::LENGTH_MINIMUM, Play\Type::LENGTH_MAXIMUM));
