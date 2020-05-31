@@ -11,7 +11,7 @@ class BonusCreditsForEachViewerAboveMinimumAudienceTest extends TheatreTestCase
 {
     use CreditVolumesRulesFixtures;
 
-    public function testCalculatesCorrectBonusAmountIfAudienceIsAboveMinimumAudience(): void
+    public function testCalculatesCorrectCreditVolumesIfAudienceIsAboveMinimumAudience(): void
     {
         $bonusCreditVolumes = $this->creditVolumes();
         $minimumAudience    = $this->audience();
@@ -26,7 +26,7 @@ class BonusCreditsForEachViewerAboveMinimumAudienceTest extends TheatreTestCase
         $this->assertTrue($expectedBonusCreditVolumes->areEquals($calculatedAmount));
     }
 
-    public function testCalculatesCorrectBonusAmountIfAudienceIsLowerThanMinimumAudience(): void
+    public function testCalculatesCorrectCreditVolumesIfAudienceIsLowerThanMinimumAudience(): void
     {
         $bonusCreditVolumes = $this->creditVolumes();
         $minimumAudience    = $this->audience();
