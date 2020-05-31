@@ -6,6 +6,9 @@ use Theatre\Amount;
 use Theatre\AmountCalculator;
 use Theatre\AmountRules;
 use Theatre\Audience;
+use Theatre\CreditVolumes;
+use Theatre\CreditVolumesCalculator;
+use Theatre\CreditVolumesRules;
 use Theatre\Customer;
 use Theatre\Invoice;
 use Theatre\Performance;
@@ -13,32 +16,29 @@ use Theatre\Performances;
 use Theatre\Play;
 use Theatre\Plays;
 
-function statement(Invoice $invoice, Plays $plays, AmountCalculator $amountCalculator)
+function statement(Invoice $invoice, Plays $plays, AmountCalculator $amountCalculator, CreditVolumesCalculator $creditVolumesCalculator)
 {
     $totalAmount   = Amount::zero();
-    $volumeCredits = 0;
+    $volumeCredits = CreditVolumes::zero();
 
     $invoiceCustomer = $invoice->customer()->name();
 
     $result = "Rachunek dla $invoiceCustomer" . PHP_EOL;
 
     foreach ($invoice->performances() as $performance) {
-        $play   = $plays->find($performance->play()->id());
-        $amount = $amountCalculator->calculate($performance);
+        $play          = $plays->find($performance->play()->id());
+        $amount        = $amountCalculator->calculate($performance);
+        $creditVolumes = $creditVolumesCalculator->calculate($performance);
 
-        $volumeCredits += max($performance->audience()->value() - 30, 0);
+        $totalAmount   = $totalAmount->add($amount);
+        $volumeCredits = $volumeCredits->add($creditVolumes);
 
-        if ("comedy" === $play->type()) {
-            $volumeCredits += floor($performance->audience()->value() / 5);
-        }
-
-        $result      .= ' ' . $play->name()->value() . ': ' . number_format($amount->value() / 100) . ' (liczba miejsc:' . $performance->audience()->value(
-            ) . ')' . PHP_EOL;
-        $totalAmount = $totalAmount->add($amount);
+        $result        .= ' ' . $play->name()->value() . ': ' . number_format($amount->value() / 100) .
+                          ' (liczba miejsc:' . $performance->audience()->value() . ')' . PHP_EOL;
     }
 
     $result .= "Naleznosc: " . number_format($totalAmount->value() / 100) . PHP_EOL;
-    $result .= "Punkty promocyjne: " . $volumeCredits . PHP_EOL;
+    $result .= "Punkty promocyjne: " . $volumeCredits->value() . PHP_EOL;
 
     return $result;
 }
@@ -73,6 +73,24 @@ $amountCalculator->addAmountRules(
             ]
     )
 );
+$creditVolumesCalculator = new CreditVolumesCalculator();
+$creditVolumesCalculator->addCreditVolumesRules(
+    Play\Type::create('comedy'),
+    new CreditVolumesRules(
+        ... [
+            new Theatre\CreditVolumesRules\BonusCreditsForEachViewerAboveMinimumAudience(CreditVolumes::create(1), Audience::create(30)),
+            new Theatre\CreditVolumesRules\BonusCreditVolumesForEachSpecifiedNumberOfViewers(CreditVolumes::create(1), Audience::create(5)),
+        ]
+    )
+);
+$creditVolumesCalculator->addCreditVolumesRules(
+    Play\Type::create('tragedy'),
+    new CreditVolumesRules(
+        ... [
+            new Theatre\CreditVolumesRules\BonusCreditsForEachViewerAboveMinimumAudience(CreditVolumes::create(1), Audience::create(30)),
+        ]
+    )
+);
 $plays = new Plays(...$plays);
 
 foreach ($invoices as $invoice) {
@@ -88,5 +106,5 @@ foreach ($invoices as $invoice) {
     $invoice = new Invoice(new Customer($invoice['customer']), new Performances(...$performances));
 
 
-    echo statement($invoice, $plays, $amountCalculator) . PHP_EOL;
+    echo statement($invoice, $plays, $amountCalculator, $creditVolumesCalculator) . PHP_EOL;
 }
