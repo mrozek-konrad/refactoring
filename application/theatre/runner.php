@@ -3,6 +3,7 @@
 require_once 'vendor/autoload.php';
 
 use Theatre\Amount;
+use Theatre\AmountCalculator;
 use Theatre\AmountRules;
 use Theatre\Audience;
 use Theatre\Customer;
@@ -12,7 +13,7 @@ use Theatre\Performances;
 use Theatre\Play;
 use Theatre\Plays;
 
-function statement(Invoice $invoice, Plays $plays, AmountRules $amountRulesForComedy, AmountRules $amountRulesForTragedy)
+function statement(Invoice $invoice, Plays $plays, AmountCalculator $amountCalculator)
 {
     $totalAmount   = Amount::zero();
     $volumeCredits = 0;
@@ -22,23 +23,8 @@ function statement(Invoice $invoice, Plays $plays, AmountRules $amountRulesForCo
     $result = "Rachunek dla $invoiceCustomer" . PHP_EOL;
 
     foreach ($invoice->performances() as $performance) {
-        $play = $plays->find($performance->playId());
-        $amount = Amount::zero();
-
-        switch ($play->type()) {
-            case "tragedy":
-                foreach ($amountRulesForTragedy as $amountRule) {
-                    $amount = $amount->add($amountRule->calculateAmount($performance->audience()));
-                }
-                break;
-            case "comedy":
-                foreach ($amountRulesForComedy as $amountRule) {
-                    $amount = $amount->add($amountRule->calculateAmount($performance->audience()));
-                }
-                break;
-            default:
-                throw new Exception('Unknown audience type ' . $play->type());
-        }
+        $play   = $plays->find($performance->play()->id());
+        $amount = $amountCalculator->calculate($performance);
 
         $volumeCredits += max($performance->audience()->value() - 30, 0);
 
@@ -46,7 +32,8 @@ function statement(Invoice $invoice, Plays $plays, AmountRules $amountRulesForCo
             $volumeCredits += floor($performance->audience()->value() / 5);
         }
 
-        $result      .= ' ' . $play->name() . ': ' . number_format($amount->value() / 100) . ' (liczba miejsc:' . $performance->audience()->value() . ')' . PHP_EOL;
+        $result      .= ' ' . $play->name()->value() . ': ' . number_format($amount->value() / 100) . ' (liczba miejsc:' . $performance->audience()->value(
+            ) . ')' . PHP_EOL;
         $totalAmount = $totalAmount->add($amount);
     }
 
@@ -62,33 +49,44 @@ $rawPlays = json_decode(file_get_contents(__DIR__ . '/json/plays.json'), true);
 $plays = [];
 
 foreach ($rawPlays as $id => $rawPlay) {
-    $plays[] = new Play($id, $rawPlay['name'], $rawPlay['type']);
+    $plays[] = new Play(Play\Id::create($id), Play\Name::create($rawPlay['name']), Play\Type::create($rawPlay['type']));
 }
 
-$amountRulesForComedy = new AmountRules(
-    ... [
-            new AmountRules\BaseAmountForPerformance(Amount::create(30000)),
-            new AmountRules\BonusAmountForAudienceAboveThanMinimumAudience(Amount::create(10000), Audience::create(20)),
-            new AmountRules\BonusAmountForEachViewerAboveMinimumAudience(Amount::create(500), Audience::create(20)),
-            new AmountRules\BonusAmountForEachViewer(Amount::create(300)),
-    ]
+$amountCalculator = new AmountCalculator();
+$amountCalculator->addAmountRules(
+    Play\Type::create('comedy'),
+    new AmountRules(
+        ... [
+                new AmountRules\BaseAmountForPerformance(Amount::create(30000)),
+                new AmountRules\BonusAmountForAudienceAboveThanMinimumAudience(Amount::create(10000), Audience::create(20)),
+                new AmountRules\BonusAmountForEachViewerAboveMinimumAudience(Amount::create(500), Audience::create(20)),
+                new AmountRules\BonusAmountForEachViewer(Amount::create(300)),
+            ]
+    )
 );
-$amountRulesForTragedy = new AmountRules(
-    ... [
-            new AmountRules\BaseAmountForPerformance(Amount::create(40000)),
-            new AmountRules\BonusAmountForEachViewerAboveMinimumAudience(Amount::create(1000), Audience::create(30)),
-    ]
+$amountCalculator->addAmountRules(
+    Play\Type::create('tragedy'),
+    new AmountRules(
+        ... [
+                new AmountRules\BaseAmountForPerformance(Amount::create(40000)),
+                new AmountRules\BonusAmountForEachViewerAboveMinimumAudience(Amount::create(1000), Audience::create(30)),
+            ]
+    )
 );
+$plays = new Plays(...$plays);
 
 foreach ($invoices as $invoice) {
     $performances = [];
 
     foreach ($invoice['performances'] as $performance) {
-        $performances[] = new Performance($performance['playId'], Audience::create($performance['audience']));
+        $play     = $plays->find(Play\Id::create($performance['playId']));
+        $audience = Audience::create($performance['audience']);
+
+        $performances[] = new Performance($play, $audience);
     }
 
     $invoice = new Invoice(new Customer($invoice['customer']), new Performances(...$performances));
-    $plays   = new Plays(...$plays);
 
-    echo statement($invoice, $plays, $amountRulesForComedy, $amountRulesForTragedy) . PHP_EOL;
+
+    echo statement($invoice, $plays, $amountCalculator) . PHP_EOL;
 }
