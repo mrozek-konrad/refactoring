@@ -30,6 +30,17 @@ class AmountCalculator
         return $amount;
     }
 
+    public function calculateTotalAmount(PerformancesSummaries $performancesSummaries): Amount
+    {
+        $totalAmount = Amount::zero();
+
+        foreach ($performancesSummaries as $performancesSummary) {
+            $totalAmount = $totalAmount->add($performancesSummary->amount());
+        }
+
+        return $totalAmount;
+    }
+
     public function amountRules(Play\Type $playType): AmountRules
     {
         if (! array_key_exists($playType->value(), $this->amountRules)) {

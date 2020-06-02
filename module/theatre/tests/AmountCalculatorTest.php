@@ -22,6 +22,22 @@ class AmountCalculatorTest extends TheatreTestCase
         $this->assertSame($amountRules, $amountCalculator->amountRules($playType));
     }
 
+    public function testCalculatesCorrectTotalAmount(): void
+    {
+        $amountCalculator      = $this->amountCalculator();
+        $performancesSummaries = $this->performancesSummaries();
+
+        $expectedTotalAmount = Amount::zero();
+
+        foreach ($performancesSummaries as $performancesSummary) {
+            $expectedTotalAmount = $expectedTotalAmount->add($performancesSummary->amount());
+        }
+
+        $calculatedTotalAmount = $amountCalculator->calculateTotalAmount($performancesSummaries);
+
+        $this->assertTrue($expectedTotalAmount->areEquals($calculatedTotalAmount));
+    }
+
     public function testDuringAmountCalculationUsesEveryAmountRuleProvidedForPlayType(): void
     {
         $performance        = $this->performance();
@@ -34,8 +50,8 @@ class AmountCalculatorTest extends TheatreTestCase
 
             return $rule;
         };
-        $amountRules      = $this->amountRules($amountRuleProvider);
-        $amountCalculator = $this->amountCalculatorWithRulesForPlayType($performance->play()->type(), $amountRules);
+        $amountRules        = $this->amountRules($amountRuleProvider);
+        $amountCalculator   = $this->amountCalculatorWithRulesForPlayType($performance->play()->type(), $amountRules);
 
         $amountCalculator->calculate($performance);
     }
