@@ -6,6 +6,7 @@ namespace Theatre\Tests\Fixtures;
 
 use Theatre\Performance;
 use Theatre\Performances;
+use Theatre\PerformancesSummaries;
 use Theatre\PerformanceSummary;
 
 trait PerformanceFixtures
@@ -38,6 +39,11 @@ trait PerformanceFixtures
     protected function performances(): Performances
     {
         return new Performances(...$this->validPerformanceParams());
+    }
+
+    protected function performancesSummaries(): PerformancesSummaries
+    {
+        return new PerformancesSummaries(...$this->validPerformancesSummariesParams());
     }
 
     protected function validPerformanceParams(): array
