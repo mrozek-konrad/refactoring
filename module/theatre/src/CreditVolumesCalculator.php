@@ -30,6 +30,17 @@ class CreditVolumesCalculator
         return $creditVolumes;
     }
 
+    public function calculateTotalCreditVolumes(PerformancesSummaries $performancesSummaries): CreditVolumes
+    {
+        $totalVolumeCredits = CreditVolumes::zero();
+
+        foreach ($performancesSummaries as $performancesSummary) {
+            $totalVolumeCredits = $totalVolumeCredits->add($performancesSummary->creditVolumes());
+        }
+
+        return $totalVolumeCredits;
+    }
+
     public function creditVolumes(Play\Type $playType): CreditVolumesRules
     {
         if (! array_key_exists($playType->value(), $this->creditVolumesRules)) {

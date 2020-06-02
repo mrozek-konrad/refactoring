@@ -4,7 +4,6 @@ namespace Theatre\Tests;
 
 use RuntimeException;
 use Theatre\Amount;
-use Theatre\AmountRule;
 use Theatre\CreditVolumes;
 use Theatre\CreditVolumesRule;
 use Theatre\Tests\Fixtures\CreditVolumesCalculatorFixtures;
@@ -22,6 +21,22 @@ class CreditVolumesCalculatorTest extends TheatreTestCase
         $creditVolumesCalculator->addCreditVolumesRules($playType, $creditVolumesRules);
 
         $this->assertSame($creditVolumesRules, $creditVolumesCalculator->creditVolumes($playType));
+    }
+
+    public function testCalculatesCorrectTotalCreditVolumes(): void
+    {
+        $creditVolumesCalculator = $this->creditVolumesCalculator();
+        $performancesSummaries   = $this->performancesSummaries();
+
+        $expectedTotalCreditVolumes = CreditVolumes::zero();
+
+        foreach ($performancesSummaries as $performancesSummary) {
+            $expectedTotalCreditVolumes = $expectedTotalCreditVolumes->add($performancesSummary->creditVolumes());
+        }
+
+        $calculatedTotalCreditVolumes = $creditVolumesCalculator->calculateTotalCreditVolumes($performancesSummaries);
+
+        $this->assertTrue($expectedTotalCreditVolumes->areEquals($calculatedTotalCreditVolumes));
     }
 
     public function testDuringAmountCalculationUsesEveryAmountRuleProvidedForPlayType(): void
