@@ -13,12 +13,12 @@ class InvoiceTest extends TheatreTestCase
 
     public function testInvoiceCanBeBuildCorrectly(): void
     {
-        $customer     = $this->customer();
-        $performances = $this->performances();
+        $customer            = $this->customer();
+        $performancesSummary = $this->performancesSummary();
 
-        $invoice = new Invoice($customer, $performances);
+        $invoice = new Invoice($customer, $performancesSummary);
 
         $this->assertSame($customer, $invoice->customer());
-        $this->assertSame($performances, $invoice->performances());
+        $this->assertSame($performancesSummary, $invoice->performancesSummary());
     }
 }

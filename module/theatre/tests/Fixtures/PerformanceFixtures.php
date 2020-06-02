@@ -7,6 +7,7 @@ namespace Theatre\Tests\Fixtures;
 use Theatre\Performance;
 use Theatre\Performances;
 use Theatre\PerformancesSummaries;
+use Theatre\PerformancesSummary;
 use Theatre\PerformanceSummary;
 
 trait PerformanceFixtures
@@ -44,6 +45,11 @@ trait PerformanceFixtures
     protected function performancesSummaries(): PerformancesSummaries
     {
         return new PerformancesSummaries(...$this->validPerformancesSummariesParams());
+    }
+
+    protected function performancesSummary(): PerformancesSummary
+    {
+        return new PerformancesSummary($this->performancesSummaries(), $this->amount(), $this->creditVolumes());
     }
 
     protected function validPerformanceParams(): array

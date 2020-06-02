@@ -6,13 +6,13 @@ namespace Theatre;
 
 class Invoice
 {
-    private Customer     $customer;
-    private Performances $performances;
+    private Customer            $customer;
+    private PerformancesSummary $performancesSummary;
 
-    public function __construct(Customer $customer, Performances $performances)
+    public function __construct(Customer $customer, PerformancesSummary $performancesSummary)
     {
-        $this->customer     = $customer;
-        $this->performances = $performances;
+        $this->customer            = $customer;
+        $this->performancesSummary = $performancesSummary;
     }
 
     public function customer(): Customer
@@ -20,8 +20,8 @@ class Invoice
         return $this->customer;
     }
 
-    public function performances(): Performances
+    public function performancesSummary(): PerformancesSummary
     {
-        return $this->performances;
+        return $this->performancesSummary;
     }
 }
