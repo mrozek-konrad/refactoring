@@ -3,15 +3,11 @@
 namespace Theatre\Tests;
 
 use Theatre\PerformanceSummary;
-use Theatre\Tests\Fixtures\AmountFixtures;
-use Theatre\Tests\Fixtures\CreditVolumesFixtures;
 use Theatre\Tests\Fixtures\PerformanceFixtures;
 
 class PerformanceSummaryTest extends TheatreTestCase
 {
-    use AmountFixtures;
     use PerformanceFixtures;
-    use CreditVolumesFixtures;
 
     public function testContainsCorrectObjectsAfterCreation(): void
     {
