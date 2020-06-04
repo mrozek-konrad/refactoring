@@ -2,8 +2,11 @@
   "type": "project",
   "license": "proprietary",
   "require": {
-    "php": "^7.4",
-    "ext-json": "*"
+    "php": "^7.4"
+  },
+  "require-dev": {
+    "phar-io/composer-plugin": "^0.1.2",
+    "symplify/easy-coding-standard-prefixed": "7.2.6"
   },
   "config": {
     "preferred-install": {
@@ -11,23 +14,19 @@
     },
     "sort-packages": true
   },
-  "autoload-dev": {
-    "psr-4": {
-      "Theatre\\Tests\\": "module/theatre/tests"
-    }
-  },
   "autoload": {
     "psr-4": {
       "Theatre\\": "module/theatre/src"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Theatre\\Tests\\": "module/theatre/tests"
+    }
+  },
   "bin": [
     "tools/ecs"
   ],
-  "require-dev": {
-    "phar-io/composer-plugin": "^0.1.2",
-    "symplify/easy-coding-standard-prefixed": "7.2.6"
-  },
   "scripts": {
     "post-autoload-dump": "tools/captainhook install --configuration='config/captainhook.json' --bootstrap='../vendor/autoload.php' -f -s",
     "ecs": "tools/ecs check --config='config/ecs.yml' --ansi",

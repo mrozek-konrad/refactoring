@@ -19,9 +19,6 @@
                 "action": "tools/composer-normalize"
             },
             {
-                "action": "tools/composer-unused"
-            },
-            {
                 "action": "tools/ecs check --config='config/ecs.yml' --no-progress-bar --ansi"
             },
             {
