@@ -25,7 +25,7 @@
                 "action": "tools/psalm --config=config/psalm.xml --long-progress --show-info=true"
             },
             {
-                "action": "tools/phpstan analyse component application --level=max --configuration=config/phpstan.neon --no-progress --ansi"
+                "action": "tools/phpstan analyse --level=max --configuration=config/phpstan.neon --no-progress --ansi"
             }
         ]
     },
