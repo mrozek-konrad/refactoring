@@ -18,11 +18,11 @@ use Theatre\PerformancesSummaryCreator;
 use Theatre\Play;
 use Theatre\Plays;
 
-function statement(Customer $customer, Performances $performances, InvoiceCreator $invoiceCreator, InvoicePrinter $invoicePrinter)
+function statement(Customer $customer, Performances $performances, InvoiceCreator $invoiceCreator, InvoicePrinter $invoicePrinter): string
 {
     $invoice = $invoiceCreator->create($customer, $performances);
 
-    $invoicePrinter->print($invoice);
+    return $invoicePrinter->print($invoice);
 }
 
 $invoices = json_decode(file_get_contents(__DIR__ . '/json/invoices.json'), true);
