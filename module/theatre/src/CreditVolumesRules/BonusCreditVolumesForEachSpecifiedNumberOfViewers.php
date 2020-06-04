@@ -21,8 +21,8 @@ class BonusCreditVolumesForEachSpecifiedNumberOfViewers implements CreditVolumes
 
     public function calculateCredit(Audience $audience): CreditVolumes
     {
-        $numberOfPrizes = (int) (floor($audience->value() / $this->partOfAudienceWhichWillBePrized->value()) ?? 0);
+        $numberOfPrizes = floor($audience->value() / $this->partOfAudienceWhichWillBePrized->value());
 
-        return $this->creditVolumesForEachPartOfAudience->multiply($numberOfPrizes);
+        return $this->creditVolumesForEachPartOfAudience->multiply(intval($numberOfPrizes));
     }
 }

@@ -49,12 +49,12 @@ class InvoicePrinter
 
     private function formatAudience(Performance $performance): string
     {
-        return ' (liczba miejsc: ' . $performance->audience()->value() . ')';
+        return ' (liczba miejsc: ' . (string)$performance->audience()->value() . ')';
     }
 
     private function formatPlay(Performance $performance): string
     {
-        return ' ' . $performance->play()->name() . ': ';
+        return ' ' . (string)$performance->play()->name() . ': ';
     }
 
     private function formatTotalAmount(PerformancesSummary $performancesSummary): string
@@ -64,6 +64,6 @@ class InvoicePrinter
 
     private function formatTotalCreditVolumes(PerformancesSummary $performancesSummary): string
     {
-        return 'Punkty promocyjne: ' . $performancesSummary->totalCreditVolumes()->value() . PHP_EOL;
+        return 'Punkty promocyjne: ' . (string)$performancesSummary->totalCreditVolumes()->value() . PHP_EOL;
     }
 }

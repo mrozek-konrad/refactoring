@@ -34,7 +34,7 @@ class CreditVolumes
         return new self($this->creditVolumes + $creditVolumesToAdd->value());
     }
 
-    public function areEquals(self $calculatedAmount)
+    public function areEquals(self $calculatedAmount): bool
     {
         return $this->creditVolumes === $calculatedAmount->creditVolumes;
     }

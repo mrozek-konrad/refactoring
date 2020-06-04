@@ -17,6 +17,7 @@
         <directory name="module" />
         <ignoreFiles>
             <directory name="vendor" />
+            <directory name="module/*/tests" />
         </ignoreFiles>
     </projectFiles>
 </psalm>

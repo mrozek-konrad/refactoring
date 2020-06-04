@@ -1,6 +1,8 @@
 parameters:
 	level: 6
 	paths:
-		- module
+		- ../module
 	checkMissingIterableValueType: false
 	checkGenericClassInNonGenericObjectType: false
+	excludes_analyse:
+		- ../module/*/tests/*
