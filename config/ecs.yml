@@ -1,0 +1,23 @@
+# ecs.yaml
+parameters:
+  paths:
+    - 'module'
+  sets:
+    - 'php70'
+    - 'php71'
+    - 'common'
+    - 'clean-code'
+    - 'psr2'
+    - 'psr12'
+    - 'symfony'
+    - 'dead-code'
+  skip:
+    PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer: ~
+services:
+  PhpCsFixer\Fixer\ReturnNotation\BlankLineBeforeReturnFixer: ~
+  PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer:
+    syntax: short
+  PhpCsFixer\Fixer\Operator\BinaryOperatorSpacesFixer:
+    default: align
+  PhpCsFixer\Fixer\Operator\ConcatSpaceFixer:
+    spacing: one

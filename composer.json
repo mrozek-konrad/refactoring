@@ -21,7 +21,18 @@
       "Theatre\\": "module/theatre/src"
     }
   },
+  "bin": [
+    "tools/ecs"
+  ],
   "require-dev": {
-    "phpmetrics/phpmetrics": "^2.6"
+    "phar-io/composer-plugin": "^0.1.2",
+    "symplify/easy-coding-standard-prefixed": "7.2.6"
+  },
+  "scripts": {
+    "post-autoload-dump": "tools/captainhook install --configuration='config/captainhook.json' --bootstrap='../vendor/autoload.php' -f -s",
+    "ecs": "tools/ecs check --config='config/ecs.yml' --ansi",
+    "ecs-fix": "tools/ecs check --config='config/ecs.yml' --ansi --fix",
+    "phpstan": "tools/phpstan analyse --level=max --configuration=config/phpstan.neon --ansi",
+    "psalm": "tools/psalm --config=config/psalm.xml --show-info=true"
   }
 }

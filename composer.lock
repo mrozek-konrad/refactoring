@@ -4,43 +4,40 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "57088388adc025aa24458f1bbaa432a1",
+    "content-hash": "ffdce32c67f40b887ec48e760fe1534d",
     "packages": [],
     "packages-dev": [
         {
-            "name": "nikic/php-parser",
-            "version": "v4.4.0",
+            "name": "phar-io/composer-plugin",
+            "version": "0.1.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "bd43ec7152eaaab3bd8c6d0aa95ceeb1df8ee120"
+                "url": "https://github.com/phar-io/composer-plugin.git",
+                "reference": "6d8b10063a175417bcde90972e074ba6fe9afea8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/bd43ec7152eaaab3bd8c6d0aa95ceeb1df8ee120",
-                "reference": "bd43ec7152eaaab3bd8c6d0aa95ceeb1df8ee120",
+                "url": "https://api.github.com/repos/phar-io/composer-plugin/zipball/6d8b10063a175417bcde90972e074ba6fe9afea8",
+                "reference": "6d8b10063a175417bcde90972e074ba6fe9afea8",
                 "shasum": ""
             },
             "require": {
-                "ext-tokenizer": "*",
-                "php": ">=7.0"
+                "composer-plugin-api": "^1.0",
+                "phar-io/executor": "^0.9",
+                "phar-io/filesystem": "^0.9",
+                "phar-io/gnupg": "^0.9",
+                "php": ">=5.6.0"
             },
             "require-dev": {
-                "ircmaxell/php-yacc": "0.0.5",
-                "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0"
+                "composer/composer": "~1.3"
             },
-            "bin": [
-                "bin/php-parse"
-            ],
-            "type": "library",
+            "type": "composer-plugin",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "4.3-dev"
-                }
+                "class": "PharIo\\Composer\\Plugin"
             },
             "autoload": {
                 "psr-4": {
-                    "PhpParser\\": "lib/PhpParser"
+                    "PharIo\\Composer\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -49,78 +46,206 @@
             ],
             "authors": [
                 {
-                    "name": "Nikita Popov"
+                    "name": "Arne Blankerts",
+                    "email": "arne@blankerts.de",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Sebastian Heuer",
+                    "email": "sebastian@phpeople.de",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Tommy Muehle",
+                    "email": "tommy.muehle@gmail.com",
+                    "role": "Developer"
                 }
             ],
-            "description": "A PHP parser written in PHP",
-            "keywords": [
-                "parser",
-                "php"
-            ],
-            "time": "2020-04-10T16:34:50+00:00"
+            "description": "This Composer plugin integrates Phive.",
+            "homepage": "https://phar.io/",
+            "time": "2020-05-13T20:27:42+00:00"
         },
         {
-            "name": "phpmetrics/phpmetrics",
-            "version": "v2.6.2",
+            "name": "phar-io/executor",
+            "version": "0.9.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/phpmetrics/PhpMetrics.git",
-                "reference": "67ac2cea23c6f9c5bdfd1c98fc0e55eef16ef59d"
+                "url": "https://github.com/phar-io/executor.git",
+                "reference": "961a28ec0343b229a6ab593d0996db3ccdfbc346"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpmetrics/PhpMetrics/zipball/67ac2cea23c6f9c5bdfd1c98fc0e55eef16ef59d",
-                "reference": "67ac2cea23c6f9c5bdfd1c98fc0e55eef16ef59d",
+                "url": "https://api.github.com/repos/phar-io/executor/zipball/961a28ec0343b229a6ab593d0996db3ccdfbc346",
+                "reference": "961a28ec0343b229a6ab593d0996db3ccdfbc346",
                 "shasum": ""
             },
             "require": {
-                "ext-dom": "*",
-                "ext-tokenizer": "*",
-                "nikic/php-parser": "^3|^4",
-                "php": ">=5.5"
+                "phar-io/filesystem": "^0.9",
+                "php": ">=5.6.0"
             },
-            "replace": {
-                "halleck45/php-metrics": "*",
-                "halleck45/phpmetrics": "*"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.8.36 || ^5.7.27 || ^6.5.14",
-                "sebastian/comparator": ">=1.2.3",
-                "squizlabs/php_codesniffer": "^3.5"
-            },
-            "bin": [
-                "bin/phpmetrics"
-            ],
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
             "autoload": {
-                "psr-0": {
-                    "Hal\\": "./src/"
-                },
-                "files": [
-                    "./src/functions.php"
+                "classmap": [
+                    "src/"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT"
+                "BSD-3-Clause"
             ],
             "authors": [
                 {
-                    "name": "Jean-François Lépine",
-                    "email": "lepinejeanfrancois@yahoo.fr",
-                    "homepage": "http://www.lepine.pro",
-                    "role": "Copyright Holder"
+                    "name": "Arne Blankerts",
+                    "email": "arne@blankerts.de",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Sebastian Heuer",
+                    "email": "sebastian@phpeople.de",
+                    "role": "Developer"
                 }
             ],
-            "description": "Static analyzer tool for PHP : Coupling, Cyclomatic complexity, Maintainability Index, Halstead's metrics... and more !",
-            "homepage": "http://www.phpmetrics.org",
-            "keywords": [
-                "analysis",
-                "qa",
-                "quality",
-                "testing"
+            "time": "2020-05-13T19:56:29+00:00"
+        },
+        {
+            "name": "phar-io/filesystem",
+            "version": "0.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phar-io/filesystem.git",
+                "reference": "6051c0b17e93721102f54f21676091187fe581c0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phar-io/filesystem/zipball/6051c0b17e93721102f54f21676091187fe581c0",
+                "reference": "6051c0b17e93721102f54f21676091187fe581c0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
             ],
-            "time": "2020-04-02T20:22:19+00:00"
+            "authors": [
+                {
+                    "name": "Arne Blankerts",
+                    "email": "arne@blankerts.de",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Sebastian Heuer",
+                    "email": "sebastian@phpeople.de",
+                    "role": "Developer"
+                }
+            ],
+            "time": "2020-05-09T15:30:44+00:00"
+        },
+        {
+            "name": "phar-io/gnupg",
+            "version": "0.9.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phar-io/gnupg.git",
+                "reference": "5a5a296381c1cb95f421dbc995a98740dd8a639c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phar-io/gnupg/zipball/5a5a296381c1cb95f421dbc995a98740dd8a639c",
+                "reference": "5a5a296381c1cb95f421dbc995a98740dd8a639c",
+                "shasum": ""
+            },
+            "require": {
+                "phar-io/executor": "^0.9",
+                "phar-io/filesystem": "^0.9",
+                "php": "^7.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Arne Blankerts",
+                    "email": "arne@blankerts.de",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Sebastian Heuer",
+                    "email": "sebastian@phpeople.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Thin GnuPG wrapper class around the gnupg binary, mimicking the pecl/gnupg api",
+            "time": "2020-05-13T20:00:02+00:00"
+        },
+        {
+            "name": "symplify/easy-coding-standard-prefixed",
+            "version": "v7.2.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symplify/easy-coding-standard-prefixed.git",
+                "reference": "61a74f0300c582c3ade214df65a149ab50a32643"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symplify/easy-coding-standard-prefixed/zipball/61a74f0300c582c3ade214df65a149ab50a32643",
+                "reference": "61a74f0300c582c3ade214df65a149ab50a32643",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2"
+            },
+            "conflict": {
+                "symplify/auto-bind-parameter": "<7.2",
+                "symplify/autowire-array-parameter": "<7.2",
+                "symplify/coding-standard": "<7.2",
+                "symplify/package-builder": "<7.2",
+                "symplify/set-config-resolver": "<7.2",
+                "symplify/smart-file-system": "<7.2"
+            },
+            "replace": {
+                "symplify/easy-coding-standard": "self.version"
+            },
+            "bin": [
+                "ecs",
+                "ecs.phar"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Prefixed version of ECS compiled in PHAR",
+            "time": "2020-03-18T09:13:22+00:00"
         }
     ],
     "aliases": [],
