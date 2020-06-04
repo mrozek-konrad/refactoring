@@ -15,26 +15,26 @@ class Amount
         if ($amount < 0) {
             throw new InvalidArgumentException('Amount cannot be less than zero');
         }
-        
+
         $this->amount = $amount;
     }
 
-    public static function create(int $amount): Amount
+    public static function create(int $amount): self
     {
         return new self($amount);
     }
 
-    public static function zero(): Amount
+    public static function zero(): self
     {
         return new self(0);
     }
 
-    public function areEquals(Amount $amount): bool
+    public function areEquals(self $amount): bool
     {
         return $this->amount === $amount->amount;
     }
 
-    public function add(Amount $amountToAdd): Amount
+    public function add(self $amountToAdd): self
     {
         return new self($this->amount + $amountToAdd->value());
     }
@@ -44,17 +44,17 @@ class Amount
         return $this->amount;
     }
 
-    public function isLessThan(Amount $amount): bool
+    public function isLessThan(self $amount): bool
     {
         return $this->amount < $amount->value();
     }
 
-    public function isGreaterThan(Amount $amount): bool
+    public function isGreaterThan(self $amount): bool
     {
         return $this->amount > $amount->value();
     }
 
-    public function multiply(int $value): Amount
+    public function multiply(int $value): self
     {
         return new self($this->amount * $value);
     }

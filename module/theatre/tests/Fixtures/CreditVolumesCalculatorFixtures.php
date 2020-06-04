@@ -28,8 +28,8 @@ trait CreditVolumesCalculatorFixtures
         return new CreditVolumesCalculator();
     }
 
-    final protected function creditVolumesRules(callable $creditVolumesRuleProvider = null)
+    final protected function creditVolumesRules(?callable $creditVolumesRuleProvider = null)
     {
-        return new CreditVolumesRules(... $this->arrayOf($creditVolumesRuleProvider ?? fn() => $this->createMock(CreditVolumesRule::class)));
+        return new CreditVolumesRules(...$this->arrayOf($creditVolumesRuleProvider ?? fn () => $this->createMock(CreditVolumesRule::class)));
     }
 }

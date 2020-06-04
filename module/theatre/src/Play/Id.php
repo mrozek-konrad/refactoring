@@ -24,12 +24,12 @@ class Id
         $this->id = $id;
     }
 
-    public static function create(string $id): Id
+    public static function create(string $id): self
     {
         return new self($id);
     }
 
-    public function areEquals(Id $id): bool
+    public function areEquals(self $id): bool
     {
         return $this->id === $id->value();
     }

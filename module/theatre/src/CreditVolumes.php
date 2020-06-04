@@ -15,31 +15,31 @@ class CreditVolumes
         if ($creditVolumes < 0) {
             throw new InvalidArgumentException('Credit volumes cannot be less than zero');
         }
-        
+
         $this->creditVolumes = $creditVolumes;
     }
 
-    public static function create(int $creditVolumes): CreditVolumes
+    public static function create(int $creditVolumes): self
     {
         return new self($creditVolumes);
     }
 
-    public static function zero(): CreditVolumes
+    public static function zero(): self
     {
         return new self(0);
     }
 
-    public function add(CreditVolumes $creditVolumesToAdd): CreditVolumes
+    public function add(self $creditVolumesToAdd): self
     {
         return new self($this->creditVolumes + $creditVolumesToAdd->value());
     }
 
-    public function areEquals(CreditVolumes $calculatedAmount)
+    public function areEquals(self $calculatedAmount)
     {
         return $this->creditVolumes === $calculatedAmount->creditVolumes;
     }
 
-    public function multiply(int $value): CreditVolumes
+    public function multiply(int $value): self
     {
         return new self($this->creditVolumes * $value);
     }

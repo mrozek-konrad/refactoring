@@ -46,11 +46,11 @@ trait CreditVolumesRulesFixtures
 
     final protected function invalidCreditVolumesParams(): array
     {
-        return $this->arrayOf(fn() => $this->mediumValue());
+        return $this->arrayOf(fn () => $this->mediumValue());
     }
 
     final protected function validCreditVolumesParams(): array
     {
-        return $this->arrayOf(fn() => $this->creditVolumesRule());
+        return $this->arrayOf(fn () => $this->creditVolumesRule());
     }
 }

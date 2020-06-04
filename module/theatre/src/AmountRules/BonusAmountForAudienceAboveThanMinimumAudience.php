@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Theatre\AmountRules;
 
-use InvalidArgumentException;
 use Theatre\Amount;
 use Theatre\AmountRule;
 use Theatre\Audience;

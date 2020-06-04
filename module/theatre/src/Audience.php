@@ -19,19 +19,19 @@ class Audience
         $this->audience = $audience;
     }
 
-    public static function create(int $audience): Audience
+    public static function create(int $audience): self
     {
         return new self($audience);
     }
 
-    public function isLessThan(Audience $minimumAudience): bool
+    public function isLessThan(self $minimumAudience): bool
     {
         return $this->audience < $minimumAudience->value();
     }
 
-    public function minus(Audience $audience): Audience
+    public function minus(self $audience): self
     {
-        return Audience::create(max($this->audience - $audience->value(), 0));
+        return self::create(max($this->audience - $audience->value(), 0));
     }
 
     public function value(): int

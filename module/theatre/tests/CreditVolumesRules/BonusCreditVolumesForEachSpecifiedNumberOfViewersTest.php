@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Theatre\Tests\CreditVolumesRules;
 
 use Theatre\CreditVolumes;
@@ -17,7 +19,9 @@ class BonusCreditVolumesForEachSpecifiedNumberOfViewersTest extends TheatreTestC
         $partOfAudienceWhichWillBePrized    = $this->audience();
         $audience                           = $this->audienceAboveThan($partOfAudienceWhichWillBePrized);
 
-        $expectedBonusCreditVolumes = CreditVolumes::create((int) floor($audience->value() / $partOfAudienceWhichWillBePrized->value()) ?? 0);
+        $expectedBonusCreditVolumes = $creditVolumesForEachPartOfAudience->multiply(
+            (int) floor($audience->value() / $partOfAudienceWhichWillBePrized->value()) ?? 0
+        );
 
         $rule             = $this->buildBonusCreditVolumesForEachSpecifiedNumberOfViewersRule(
             $creditVolumesForEachPartOfAudience,

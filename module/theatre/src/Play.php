@@ -21,7 +21,7 @@ class Play
         $this->type = $type;
     }
 
-    public static function create(Id $id, Name $name, Type $type): Play
+    public static function create(Id $id, Name $name, Type $type): self
     {
         return new self($id, $name, $type);
     }

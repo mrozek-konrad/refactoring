@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Theatre\Tests;
 
 use RuntimeException;
-use Theatre\Amount;
 use Theatre\CreditVolumes;
 use Theatre\CreditVolumesRule;
 use Theatre\Tests\Fixtures\CreditVolumesCalculatorFixtures;

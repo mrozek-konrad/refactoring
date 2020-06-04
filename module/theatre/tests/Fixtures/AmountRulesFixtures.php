@@ -63,11 +63,11 @@ trait AmountRulesFixtures
 
     final protected function invalidAmountRulesParams(): array
     {
-        return $this->arrayOf(fn() => $this->mediumValue());
+        return $this->arrayOf(fn () => $this->mediumValue());
     }
 
     final protected function validAmountRulesParams(): array
     {
-        return $this->arrayOf(fn() => $this->amountRule());
+        return $this->arrayOf(fn () => $this->amountRule());
     }
 }

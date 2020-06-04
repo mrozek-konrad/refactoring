@@ -40,6 +40,6 @@ class PerformancesSummaryCreator
             $performancesSummaries[] = $this->createPerformanceSummary($performance);
         }
 
-        return new PerformancesSummaries(... $performancesSummaries);
+        return new PerformancesSummaries(...$performancesSummaries);
     }
 }

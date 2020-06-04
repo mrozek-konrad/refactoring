@@ -19,12 +19,12 @@ trait PerformanceFixtures
 
     final protected function invalidPerformancesParams(): array
     {
-        return $this->arrayOf(fn() => $this->largeValue());
+        return $this->arrayOf(fn () => $this->largeValue());
     }
 
     final protected function invalidPerformancesSummariesParams(): array
     {
-        return $this->arrayOf(fn() => $this->largeValue());
+        return $this->arrayOf(fn () => $this->largeValue());
     }
 
     protected function performance(): Performance
@@ -54,11 +54,11 @@ trait PerformanceFixtures
 
     protected function validPerformanceParams(): array
     {
-        return $this->arrayOf(fn() => $this->performance());
+        return $this->arrayOf(fn () => $this->performance());
     }
 
     protected function validPerformancesSummariesParams(): array
     {
-        return $this->arrayOf(fn() => $this->performanceSummary());
+        return $this->arrayOf(fn () => $this->performanceSummary());
     }
 }

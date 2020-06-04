@@ -24,17 +24,17 @@ class Name
         $this->name = $name;
     }
 
-    public static function create(string $name): Name
+    public function __toString(): string
+    {
+        return $this->name;
+    }
+
+    public static function create(string $name): self
     {
         return new self($name);
     }
 
     public function value(): string
-    {
-        return $this->name;
-    }
-
-    public function __toString(): string
     {
         return $this->name;
     }

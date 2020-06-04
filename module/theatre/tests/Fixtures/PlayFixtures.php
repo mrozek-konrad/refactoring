@@ -20,7 +20,7 @@ trait PlayFixtures
 
     final protected function invalidPlaysParams(): array
     {
-        return $this->arrayOf(fn() => $this->largeValue());
+        return $this->arrayOf(fn () => $this->largeValue());
     }
 
     final protected function play(?Id $id = null): Play
@@ -105,6 +105,6 @@ trait PlayFixtures
 
     final protected function validPlaysParams(?Play\Id $id = null): array
     {
-        return $this->arrayOf(fn() => $this->play($id));
+        return $this->arrayOf(fn () => $this->play($id));
     }
 }

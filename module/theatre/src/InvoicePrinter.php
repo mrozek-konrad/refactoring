@@ -16,7 +16,7 @@ class InvoicePrinter
 
     private function printCustomerInfo(Customer $customer): string
     {
-        return "Rachunek dla " . $customer->name() . PHP_EOL;
+        return 'Rachunek dla ' . $customer->name() . PHP_EOL;
     }
 
     private function printPerformanceSummary(PerformanceSummary $performanceSummary): string
@@ -59,11 +59,11 @@ class InvoicePrinter
 
     private function formatTotalAmount(PerformancesSummary $performancesSummary): string
     {
-        return "Naleznosc: " . number_format($performancesSummary->totalAmount()->value() / 100) . PHP_EOL;
+        return 'Naleznosc: ' . number_format($performancesSummary->totalAmount()->value() / 100) . PHP_EOL;
     }
 
     private function formatTotalCreditVolumes(PerformancesSummary $performancesSummary): string
     {
-        return "Punkty promocyjne: " . $performancesSummary->totalCreditVolumes()->value() . PHP_EOL;
+        return 'Punkty promocyjne: ' . $performancesSummary->totalCreditVolumes()->value() . PHP_EOL;
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Theatre\Tests;
 
 use PHPUnit\Framework\TestCase;
@@ -13,7 +15,7 @@ abstract class TheatreTestCase extends TestCase
     {
         $params = [];
 
-        for ($i = 0; $i < $this->tinyValue(); $i++) {
+        for ($i = 0; $i < $this->tinyValue(); ++$i) {
             $params[] = $elementHandler();
         }
 
@@ -65,12 +67,12 @@ abstract class TheatreTestCase extends TestCase
         return mt_rand($min, $max);
     }
 
-    protected function valueGreaterThan(int $greaterThan, int $max = null): int
+    protected function valueGreaterThan(int $greaterThan, ?int $max = null): int
     {
         return mt_rand($greaterThan, $max ?? $this->largeValue());
     }
 
-    protected function valueLowerThan(int $lowerThan, int $min = null): int
+    protected function valueLowerThan(int $lowerThan, ?int $min = null): int
     {
         return mt_rand(-($min ?? $this->largeValue()), $lowerThan);
     }

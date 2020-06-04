@@ -28,8 +28,8 @@ trait AmountCalculatorFixtures
         return $amountCalculator;
     }
 
-    final protected function amountRules(callable $amountRuleProvider = null)
+    final protected function amountRules(?callable $amountRuleProvider = null)
     {
-        return new AmountRules(... $this->arrayOf($amountRuleProvider ?? fn() => $this->createMock(AmountRule::class)));
+        return new AmountRules(...$this->arrayOf($amountRuleProvider ?? fn () => $this->createMock(AmountRule::class)));
     }
 }

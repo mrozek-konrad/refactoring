@@ -24,7 +24,7 @@ class Type
         $this->type = $type;
     }
 
-    public static function create(string $type): Type
+    public static function create(string $type): self
     {
         return new self($type);
     }

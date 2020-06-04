@@ -26,9 +26,9 @@ trait RandomScalarValuesFixtures
 
     abstract protected function value(int $min, int $max): int;
 
-    abstract protected function valueGreaterThan(int $greaterThan, int $max = null): int;
+    abstract protected function valueGreaterThan(int $greaterThan, ?int $max = null): int;
 
-    abstract protected function valueLowerThan(int $lowerThan, int $min = null): int;
+    abstract protected function valueLowerThan(int $lowerThan, ?int $min = null): int;
 
     abstract protected function zero(): int;
 }
