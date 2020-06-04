@@ -11,28 +11,18 @@ use Theatre\CreditVolumesCalculator;
 use Theatre\CreditVolumesRules;
 use Theatre\Customer;
 use Theatre\InvoiceCreator;
+use Theatre\InvoicePrinter;
 use Theatre\Performance;
 use Theatre\Performances;
 use Theatre\PerformancesSummaryCreator;
 use Theatre\Play;
 use Theatre\Plays;
 
-function statement(Customer $customer, Performances $performances, InvoiceCreator $invoiceCreator)
+function statement(Customer $customer, Performances $performances, InvoiceCreator $invoiceCreator, InvoicePrinter $invoicePrinter)
 {
-    $invoice             = $invoiceCreator->create($customer, $performances);
-    $performancesSummary = $invoice->performancesSummary();
+    $invoice = $invoiceCreator->create($customer, $performances);
 
-    $result = "Rachunek dla " . $invoice->customer()->name() . PHP_EOL;
-    foreach ($performancesSummary->performancesSummaries() as $performanceSummary) {
-        $result .= ' ' . $performanceSummary->performance()->play()->name()->value() .
-                   ': ' . number_format($performanceSummary->amount()->value() / 100) .
-                   ' (liczba miejsc:' . $performanceSummary->performance()->audience()->value() . ')' . PHP_EOL;
-    }
-
-    $result .= "Naleznosc: " . number_format($performancesSummary->totalAmount()->value() / 100) . PHP_EOL;
-    $result .= "Punkty promocyjne: " . $performancesSummary->totalCreditVolumes()->value() . PHP_EOL;
-
-    return $result;
+    $invoicePrinter->print($invoice);
 }
 
 $invoices = json_decode(file_get_contents(__DIR__ . '/json/invoices.json'), true);
@@ -88,6 +78,7 @@ $plays = new Plays(...$plays);
 $performanceSummaryCreator = new PerformancesSummaryCreator($amountCalculator, $creditVolumesCalculator);
 
 $invoiceCreator = new InvoiceCreator($performanceSummaryCreator);
+$invoicePrinter = new InvoicePrinter();
 
 foreach ($invoices as $invoice) {
     $performances = [];
@@ -102,5 +93,5 @@ foreach ($invoices as $invoice) {
     $customer     = new Customer($invoice['customer']);
     $performances = new Performances(...$performances);
 
-    echo statement($customer, $performances, $invoiceCreator) . PHP_EOL;
+    echo statement($customer, $performances, $invoiceCreator, $invoicePrinter) . PHP_EOL;
 }
